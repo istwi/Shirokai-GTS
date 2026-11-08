@@ -1,0 +1,14 @@
+{
+  "mappings": {
+    "org/pokesplash/gts/mixin/PlayerListAccessor": {
+      "save": "method_14577(Lnet/minecraft/class_3222;)V"
+    }
+  },
+  "data": {
+    "named:intermediary": {
+      "org/pokesplash/gts/mixin/PlayerListAccessor": {
+        "save": "method_14577(Lnet/minecraft/class_3222;)V"
+      }
+    }
+  }
+}

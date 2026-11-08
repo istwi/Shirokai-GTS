@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "id": "gts",
+  "version": "2.6.2",
+  "name": "Cobblemon GTS",
+  "description": "A Global Trading System mod made for Cobblemon to allow player to player sales.",
+  "authors": [
+    "bencrow11"
+  ],
+  "contact": {},
+  "license": "MIT",
+  "icon": "icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "org.pokesplash.gts.fabric.GtsFabric"
+    ]
+  },
+  "mixins": [
+    "gts-shirokai.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": "\u003e\u003d0.16.0",
+    "minecraft": "\u003d1.21.1",
+    "cobblemon": "\u003e\u003d1.8.3",
+    "java": "\u003e\u003d21",
+    "impactor": "\u003d5.3.5"
+  },
+  "jars": [
+    {
+      "file": "META-INF/jars/fabric-api-repack-3.1.1-1.21.x.jar"
+    },
+    {
+      "file": "META-INF/jars/fabric-permissions-api-0.3.1.jar"
+    }
+  ]
+}
