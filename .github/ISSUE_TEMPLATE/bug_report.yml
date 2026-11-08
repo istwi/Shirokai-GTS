@@ -1,0 +1,22 @@
+name: Relatar problema
+description: Erro no mod ou nos menus
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: O que aconteceu?
+      description: Inclua o que você esperava e os passos para reproduzir.
+    validations:
+      required: true
+  - type: input
+    id: versions
+    attributes:
+      label: Versões de GTS, Cobblemon, Fabric Loader e Impactor
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Erros e configuração relevante
+      description: Remova tokens, endereços de webhook e dados privados antes de enviar.
+      render: text

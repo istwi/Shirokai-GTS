@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "package": "org.pokesplash.gts.mixin",
+  "refmap": "GTS-Shirokai-refmap.json",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "PlayerListAccessor"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "menus": {
+    "gts": {
+      "title": "GTS Shirokai | {current}/{total}",
+      "filler": {"item": "minecraft:gray_stained_glass_pane", "name": " "}
+    },
+    "sell_currency": {
+      "rows": 4,
+      "title": "Escolha a moeda da venda",
+      "contentSlots": [10, 11, 12, 13, 14, 15, 16],
+      "buttons": {
+        "cancel": {"slot": 31, "appearance": {"item": "minecraft:barrier", "name": "<red>Cancelar venda</red>"}}
+      },
+      "decorations": [
+        {"slot": 4, "appearance": {"item": "minecraft:gold_ingot", "name": "<gold>Escolha como receber</gold>"}}
+      ]
+    },
+    "sell_confirm": {
+      "rows": 4,
+      "title": "Confirme seu anúncio",
+      "filler": {"item": "minecraft:black_stained_glass_pane", "name": " "},
+      "buttons": {
+        "confirm": {"slot": 20, "appearance": {"item": "minecraft:emerald", "name": "<green>Publicar anúncio</green>"}},
+        "asset": {"slot": 13},
+        "cancel": {"slot": 24},
+        "change_currency": {"slot": 31, "appearance": {"item": "minecraft:arrow", "name": "<yellow>Trocar moeda</yellow>"}}
+      }
+    }
+  }
+}

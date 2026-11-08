@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "id": "gts",
+  "version": "${version}",
+  "name": "Shirokai GTS",
+  "description": "A Global Trading System mod made for Cobblemon to allow player to player sales.",
+  "authors": [
+    "bencrow11",
+    "Shirokai"
+  ],
+  "contact": {
+    "sources": "https://github.com/istwi/Shirokai-GTS",
+    "issues": "https://github.com/istwi/Shirokai-GTS/issues"
+  },
+  "license": "MIT",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "org.pokesplash.gts.fabric.GtsFabric"
+    ]
+  },
+  "mixins": [
+    "gts-shirokai.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.17.2",
+    "minecraft": "=1.21.1",
+    "cobblemon": ">=1.8.3",
+    "java": ">=21",
+    "impactor": "=5.3.5",
+    "fabric-api": ">=0.116.6+1.21.1"
+  }
+}

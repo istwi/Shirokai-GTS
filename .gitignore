@@ -2,3 +2,10 @@
 /build/
 /dist/
 __pycache__/
+/.gradle/
+/run/
+/.idea/
+*.iml
+/.vscode/
+/logs/
+/crash-reports/

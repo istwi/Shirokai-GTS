@@ -1,0 +1,35 @@
+name: Build and test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Compile, test, remap, and check configuration examples
+        run: |
+          ./gradlew --no-daemon build exportLayoutDefaults
+          git diff --exit-code -- docs/examples/layouts.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Shirokai-GTS
+          path: build/libs/*.jar
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: Test-results
+          path: build/reports/tests/test/

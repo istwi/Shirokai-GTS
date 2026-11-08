@@ -1,0 +1,98 @@
+plugins {
+    id 'fabric-loom' version '1.10.5'
+    id 'org.jetbrains.kotlin.jvm' version '2.2.20'
+    id 'maven-publish'
+}
+
+version = project.mod_version
+group = project.maven_group
+base { archivesName = project.archives_base_name }
+
+repositories {
+    mavenCentral()
+    maven { url = 'https://maven.impactdev.net/repository/development/' }
+}
+
+configurations {
+    cobblemonBinary { transitive = false }
+    impactorBinary { transitive = false }
+}
+
+// Development classpaths need nested libraries recursively (production Fabric
+// discovers them from the distributed mods itself).
+def bundledLibraries
+bundledLibraries = { File archive ->
+    def found = [:]
+    zipTree(archive).matching {
+        include 'META-INF/jars/*.jar'
+        exclude '**/fabric-api-repack-*'
+        exclude '**/fabric-permissions-api-*'
+        exclude '**/geantyref-1.3.13.jar'
+    }.files.each { nested ->
+        found[nested.name] = nested
+        found.putAll(bundledLibraries(nested))
+    }
+    found
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${minecraft_version}"
+    mappings "net.fabricmc:yarn:${yarn_mappings}:v2"
+    modImplementation "net.fabricmc:fabric-loader:${loader_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_version}"
+    // File dependency avoids Loom's timestamped-SNAPSHOT repository path mismatch.
+    cobblemonBinary 'com.cobblemon:fabric:1.8.3+1.21.1-20261024.164120-29'
+    modImplementation files(configurations.cobblemonBinary)
+    modRuntimeOnly files(provider { bundledLibraries(configurations.cobblemonBinary.singleFile).values() })
+    modImplementation include('ca.landonjw.gooeylibs:fabric-api-repack:3.1.1-1.21.x')
+    modImplementation include('me.lucko:fabric-permissions-api:0.3.1')
+    compileOnly('net.impactdev.impactor.api:core:5.3.5') { transitive = false }
+    compileOnly('net.impactdev.impactor.api:economy:5.3.5') { transitive = false }
+    modRuntimeOnly('net.impactdev.impactor.launchers:fabric:5.3.5+1.21.1') { transitive = false }
+    impactorBinary 'net.impactdev.impactor.launchers:fabric:5.3.5+1.21.1'
+    // Loom strips nested JARs from development mods. Expose Impactor's bundled
+    // runtime libraries explicitly, while keeping our newer GooeyLibs version.
+    modRuntimeOnly files(provider { bundledLibraries(configurations.impactorBinary.singleFile).values() })
+    compileOnly 'net.kyori:adventure-api:4.17.0'
+    compileOnly 'net.kyori:adventure-text-minimessage:4.17.0'
+    compileOnly 'net.kyori:adventure-text-serializer-gson:4.17.0'
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib:2.2.20'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.11.4'
+    testImplementation "net.fabricmc:fabric-loader-junit:${loader_version}"
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+loom {
+    mixin { defaultRefmapName = 'GTS-Shirokai-refmap.json' }
+    runs {
+        server { runDir 'run/server' }
+    }
+}
+
+processResources {
+    inputs.property 'version', project.version
+    filesMatching('fabric.mod.json') { expand(version: project.version) }
+}
+
+java {
+    toolchain.languageVersion = JavaLanguageVersion.of(21)
+    withSourcesJar()
+}
+tasks.withType(JavaCompile).configureEach {
+    options.release = 21
+    options.encoding = 'UTF-8'
+}
+test {
+    useJUnitPlatform()
+    systemProperty 'fabric.side', 'server'
+}
+tasks.register('exportLayoutDefaults', JavaExec) {
+    dependsOn testClasses
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'org.pokesplash.gts.config.layout.ExportLayouts'
+    args layout.projectDirectory.file('docs/examples/layouts.json').asFile.absolutePath
+}
+jar { from('LICENSE') { rename { "LICENSE-${project.base.archivesName.get()}" } } }
+publishing {
+    publications { mavenJava(MavenPublication) { from components.java } }
+}

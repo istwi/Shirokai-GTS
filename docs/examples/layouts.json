@@ -1,0 +1,934 @@
+{
+  "version": 1,
+  "menus": {
+    "gts": {
+      "rows": 6,
+      "title": null,
+      "filler": {
+        "item": null,
+        "name": null,
+        "lore": null
+      },
+      "contentSlots": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44
+      ],
+      "buttons": {
+        "pokemon": {
+          "slot": 48,
+          "appearance": {
+            "item": null,
+            "name": null,
+            "lore": null
+          }
+        },
+        "manage": {
+          "slot": 49,
+          "appearance": {
+            "item": null,
+            "name": null,
+            "lore": null
+          }
+        },
+        "items": {
+          "slot": 50,
+          "appearance": {
+            "item": null,
+            "name": null,
+            "lore": null
+          }
+        },
+        "previous": {
+          "slot": 45,
+          "appearance": {
+            "item": null,
+            "name": null,
+            "lore": null
+          }
+        },
+        "next": {
+          "slot": 53,
+          "appearance": {
+            "item": null,
+            "name": null,
+            "lore": null
+          }
+        },
+        "relist": {
+          "slot": 52,
+          "appearance": {
+            "item": null,
+            "name": null,
+            "lore": null
+          }
+        }
+      },
+      "decorations": []
+    },
+    "items": {
+      "rows": 6,
+      "title": null,
+      "filler": {
+        "item": null,
+        "name": null,
+        "lore": null
+      },
+      "contentSlots": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44
+      ],
+      "buttons": {
+        "sort_price": {
+          "slot": 47,
+          "appearance": {
+            "item": null,
+            "name": null,
+            "lore": null
+          }
+        },
+        "sort_newest": {
+          "slot": 48,
+          "appearance": {
+            "item": null,
+            "name": null,
+            "lore": null
+          }
+        },
+        "sort_name": {
+          "slot": 49,
+          "appearance": {
+            "item": null,
+            "name": null,
+            "lore": null
+          }
+        },
+        "pokemon": {
+          "slot": 50,
+          "appearance": {
+            "item": null,
+            "name": null,
+            "lore": null
+          }
+        },
+        "manage": {
+          "slot": 51,
+          "appearance": {
+            "item": null,
+            "name": null,
+            "lore": null
+          }
+        },
+        "previous": {
+          "slot": 45,
+          "appearance": {
+            "item": null,
+            "name": null,
+            "lore": null
+          }
+        },
+        "next": {
+          "slot": 53,
+          "appearance": {
+            "item": null,
+            "name": null,
+            "lore": null
+          }
+        },
+        "relist": {
+          "slot": 52,
+          "appearance": {
+            "item": null,
+            "name": null,
+            "lore": null
+          }
+        }
+      },
+      "decorations": []
+    },
+    "pokemon": {
+      "rows": 6,
+      "title": null,
+      "filler": {
+        "item": null,
+        "name": null,
+        "lore": null
+      },
+      "contentSlots": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44
+      ],
+      "buttons": {
+        "sort_price": {
+          "slot": 47,
+          "appearance": {
+            "item": null,
+            "name": null,
+            "lore": null
+          }
+        },
+        "sort_newest": {
+          "slot": 48,
+          "appearance": {
+            "item": null,
+            "name": null,
+            "lore": null
+          }
+        },
+        "sort_name": {
+          "slot": 49,
+          "appearance": {
+            "item": null,
+            "name": null,
+            "lore": null
+          }
+        },
+        "items": {
+          "slot": 50,
+          "appearance": {
+            "item": null,
+            "name": null,
+            "lore": null
+          }
+        },
+        "manage": {
+          "slot": 51,
+          "appearance": {
+            "item": null,
+            "name": null,
+            "lore": null
+          }
+        },
+        "previous": {
+          "slot": 45,
+          "appearance": {
+            "item": null,
+            "name": null,
+            "lore": null
+          }
+        },
+        "next": {
+          "slot": 53,
+          "appearance": {
+            "item": null,
+            "name": null,
+            "lore": null
+          }
+        },
+        "relist": {
+          "slot": 52,
+          "appearance": {
+            "item": null,
+            "name": null,
+            "lore": null
+          }
+        }
+      },
+      "decorations": []
+    },
+    "manage": {
+      "rows": 6,
+      "title": null,
+      "filler": {
+        "item": null,
+        "name": null,
+        "lore": null
+      },
+      "contentSlots": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44
+      ],
+      "buttons": {
+        "pokemon": {
+          "slot": 48,
+          "appearance": {
+            "item": null,
+            "name": null,
+            "lore": null
+          }
+        },
+        "expired": {
+          "slot": 49,
+          "appearance": {
+            "item": null,
+            "name": null,
+            "lore": null
+          }
+        },
+        "items": {
+          "slot": 50,
+          "appearance": {
+            "item": null,
+            "name": null,
+            "lore": null
+          }
+        },
+        "previous": {
+          "slot": 45,
+          "appearance": {
+            "item": null,
+            "name": null,
+            "lore": null
+          }
+        },
+        "next": {
+          "slot": 53,
+          "appearance": {
+            "item": null,
+            "name": null,
+            "lore": null
+          }
+        },
+        "relist": {
+          "slot": 52,
+          "appearance": {
+            "item": null,
+            "name": null,
+            "lore": null
+          }
+        }
+      },
+      "decorations": []
+    },
+    "expired": {
+      "rows": 6,
+      "title": null,
+      "filler": {
+        "item": null,
+        "name": null,
+        "lore": null
+      },
+      "contentSlots": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44
+      ],
+      "buttons": {
+        "pokemon": {
+          "slot": 48,
+          "appearance": {
+            "item": null,
+            "name": null,
+            "lore": null
+          }
+        },
+        "manage": {
+          "slot": 49,
+          "appearance": {
+            "item": null,
+            "name": null,
+            "lore": null
+          }
+        },
+        "items": {
+          "slot": 50,
+          "appearance": {
+            "item": null,
+            "name": null,
+            "lore": null
+          }
+        },
+        "previous": {
+          "slot": 45,
+          "appearance": {
+            "item": null,
+            "name": null,
+            "lore": null
+          }
+        },
+        "next": {
+          "slot": 53,
+          "appearance": {
+            "item": null,
+            "name": null,
+            "lore": null
+          }
+        },
+        "relist": {
+          "slot": 52,
+          "appearance": {
+            "item": null,
+            "name": null,
+            "lore": null
+          }
+        }
+      },
+      "decorations": []
+    },
+    "history": {
+      "rows": 6,
+      "title": null,
+      "filler": {
+        "item": null,
+        "name": null,
+        "lore": null
+      },
+      "contentSlots": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44
+      ],
+      "buttons": {
+        "pokemon": {
+          "slot": 48,
+          "appearance": {
+            "item": null,
+            "name": null,
+            "lore": null
+          }
+        },
+        "manage": {
+          "slot": 49,
+          "appearance": {
+            "item": null,
+            "name": null,
+            "lore": null
+          }
+        },
+        "items": {
+          "slot": 50,
+          "appearance": {
+            "item": null,
+            "name": null,
+            "lore": null
+          }
+        },
+        "previous": {
+          "slot": 45,
+          "appearance": {
+            "item": null,
+            "name": null,
+            "lore": null
+          }
+        },
+        "next": {
+          "slot": 53,
+          "appearance": {
+            "item": null,
+            "name": null,
+            "lore": null
+          }
+        }
+      },
+      "decorations": []
+    },
+    "search": {
+      "rows": 6,
+      "title": null,
+      "filler": {
+        "item": null,
+        "name": null,
+        "lore": null
+      },
+      "contentSlots": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44
+      ],
+      "buttons": {
+        "pokemon": {
+          "slot": 48,
+          "appearance": {
+            "item": null,
+            "name": null,
+            "lore": null
+          }
+        },
+        "manage": {
+          "slot": 49,
+          "appearance": {
+            "item": null,
+            "name": null,
+            "lore": null
+          }
+        },
+        "items": {
+          "slot": 50,
+          "appearance": {
+            "item": null,
+            "name": null,
+            "lore": null
+          }
+        },
+        "previous": {
+          "slot": 45,
+          "appearance": {
+            "item": null,
+            "name": null,
+            "lore": null
+          }
+        },
+        "next": {
+          "slot": 53,
+          "appearance": {
+            "item": null,
+            "name": null,
+            "lore": null
+          }
+        },
+        "relist": {
+          "slot": 52,
+          "appearance": {
+            "item": null,
+            "name": null,
+            "lore": null
+          }
+        }
+      },
+      "decorations": []
+    },
+    "listing": {
+      "rows": 3,
+      "title": null,
+      "filler": {
+        "item": null,
+        "name": null,
+        "lore": null
+      },
+      "contentSlots": [],
+      "buttons": {
+        "primary": {
+          "slot": 11,
+          "appearance": {
+            "item": null,
+            "name": null,
+            "lore": null
+          }
+        },
+        "asset": {
+          "slot": 13,
+          "appearance": {
+            "item": null,
+            "name": null,
+            "lore": null
+          }
+        },
+        "back": {
+          "slot": 15,
+          "appearance": {
+            "item": null,
+            "name": null,
+            "lore": null
+          }
+        },
+        "admin_remove": {
+          "slot": 22,
+          "appearance": {
+            "item": null,
+            "name": null,
+            "lore": null
+          }
+        }
+      },
+      "decorations": []
+    },
+    "expired_listing": {
+      "rows": 3,
+      "title": null,
+      "filler": {
+        "item": null,
+        "name": null,
+        "lore": null
+      },
+      "contentSlots": [],
+      "buttons": {
+        "receive": {
+          "slot": 11,
+          "appearance": {
+            "item": null,
+            "name": null,
+            "lore": null
+          }
+        },
+        "asset": {
+          "slot": 13,
+          "appearance": {
+            "item": null,
+            "name": null,
+            "lore": null
+          }
+        },
+        "back": {
+          "slot": 15,
+          "appearance": {
+            "item": null,
+            "name": null,
+            "lore": null
+          }
+        }
+      },
+      "decorations": []
+    },
+    "sell_currency": {
+      "rows": 3,
+      "title": null,
+      "filler": {
+        "item": null,
+        "name": null,
+        "lore": null
+      },
+      "contentSlots": [
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16
+      ],
+      "buttons": {
+        "cancel": {
+          "slot": 22,
+          "appearance": {
+            "item": null,
+            "name": null,
+            "lore": null
+          }
+        }
+      },
+      "decorations": []
+    },
+    "sell_confirm": {
+      "rows": 3,
+      "title": null,
+      "filler": {
+        "item": null,
+        "name": null,
+        "lore": null
+      },
+      "contentSlots": [],
+      "buttons": {
+        "confirm": {
+          "slot": 11,
+          "appearance": {
+            "item": null,
+            "name": null,
+            "lore": null
+          }
+        },
+        "asset": {
+          "slot": 13,
+          "appearance": {
+            "item": null,
+            "name": null,
+            "lore": null
+          }
+        },
+        "cancel": {
+          "slot": 15,
+          "appearance": {
+            "item": null,
+            "name": null,
+            "lore": null
+          }
+        },
+        "change_currency": {
+          "slot": 22,
+          "appearance": {
+            "item": null,
+            "name": null,
+            "lore": null
+          }
+        }
+      },
+      "decorations": []
+    }
+  }
+}

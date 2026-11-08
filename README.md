@@ -1,62 +1,93 @@
-# Shirokai GTS — recuperação 2.6.2
+# Shirokai GTS
 
-Código e recursos recuperados do arquivo `GTS-Shirokai-2.6.2-fabric.jar` fornecido pelo proprietário do projeto. Mod de vendas entre jogadores para Cobblemon, baseado em Cobblemon GTS de bencrow11. Licença MIT original preservada em [LICENSE](LICENSE).
+Sistema de comércio de Pokémon e itens entre jogadores para **Minecraft 1.21.1 / Fabric / Cobblemon**. Projeto reconstruído a partir do mod Shirokai 2.6.2, com fontes editáveis, compilação completa e menus configuráveis na versão **2.7.0**.
 
-## Compatibilidade declarada no mod
+[![Build and test](https://github.com/istwi/Shirokai-GTS/actions/workflows/build.yml/badge.svg)](https://github.com/istwi/Shirokai-GTS/actions/workflows/build.yml)
 
-| Componente | Versão |
-| --- | --- |
-| Minecraft | 1.21.1 |
-| Java | 21 ou superior |
-| Fabric Loader | 0.16.0 ou superior |
-| Cobblemon | 1.8.3 ou superior |
-| Impactor | 5.3.5 |
+## O que você pode mudar
 
-Esses requisitos vêm de `fabric.mod.json`; não equivalem a uma matriz de versões testadas. O JAR original também inclui fabric-api-repack 3.1.1-1.21.x e fabric-permissions-api 0.3.1.
+Edite `config/gts/layouts.json` no servidor para personalizar **os 11 menus**: GTS principal, itens, Pokémon, busca, gerenciamento, expirados, histórico, detalhes do anúncio, recuperação, seleção de moedas e confirmação da venda.
 
-## Correção: voltar para trocar moeda
+Você pode mudar títulos, quantidade de linhas, posições, ícones, nomes, descrições, preenchimento e decorações. Execute `/gts reload` e reabra o menu. Configurações inválidas mantêm o último layout válido.
 
-Na venda (`/gts sell`), o menu de confirmação chamava novamente `template.build()` ao clicar em **trocar moeda**. A versão de GooeyLibs incluída esvazia o construtor em cada chamada a `build()`, portanto a segunda abertura recebia um inventário vazio. O caminho de retorno após uma confirmação rejeitada usava o mesmo construtor.
+**[Guia dos layouts e exemplos →](docs/LAYOUTS.md)**
 
-A correção substitui apenas a criação do construtor de seleção por `ReusableSelectionTemplate`: guarda o primeiro modelo e cria cópias dos slots a cada abertura. Os botões e os callbacks da sessão permanecem os mesmos. O construtor do menu de confirmação e a biblioteca compartilhada permanecem intactos.
+O problema do menu vazio ao voltar para trocar a moeda foi corrigido: a seleção conserva um modelo reutilizável, sem reutilizar um construtor já esvaziado.
 
-## Gerar o JAR corrigido
+## Compilar
 
-Pré-requisitos: Java 21+, Python 3 e curl. Na raiz do checkout:
+Instale **JDK 21** e execute na raiz do projeto:
 
 ```sh
-python3 tools/build.py
+./gradlew build
 ```
 
-O script baixa ECJ, ASM e Guava do Maven Central, verifica SHA-256, compila a correção, executa o teste de regressão e gera:
+No Windows:
+
+```bat
+gradlew.bat build
+```
+
+O Gradle Wrapper baixa o Gradle com verificação SHA-256. O build compila todas as fontes atuais, executa os testes e gera o mod distribuível em **`build/libs/GTS-Shirokai-2.7.0.jar`**. O arquivo com sufixo `-sources.jar` contém as fontes e não deve ser instalado como mod.
+
+A primeira compilação baixa Minecraft, mappings e dependências. O desenvolvimento usa Yarn `1.21.1+build.3` e Fabric Loom; não é necessário aplicar o hotfix antigo no binário para gerar a versão atual.
+
+## Instalar no servidor
+
+Faça backup dos dados e da configuração do GTS. Com o servidor parado, substitua o JAR antigo pelo novo em `mods/`, mantendo apenas uma versão do GTS.
+
+| Dependência | Versão usada no desenvolvimento |
+| --- | --- |
+| Minecraft | 1.21.1 |
+| Java | 21 |
+| Fabric Loader | 0.17.2 |
+| Fabric API | 0.116.6+1.21.1 |
+| Cobblemon | 1.8.3 para 1.21.1 |
+| Impactor | 5.3.5+1.21.1 |
+| Cloud Fabric, dependência do Impactor | 2.0.0-beta.9 |
+
+O build fixa o snapshot Cobblemon `1.8.3+1.21.1-20261024.164120-29` para evitar mudanças silenciosas na dependência de desenvolvimento. O servidor deve ter Cobblemon, Impactor e suas dependências compatíveis instaladas. GooeyLibs (`fabric-api-repack` 3.1.1-1.21.x) e Fabric Permissions API 0.3.1 já vão incorporados no GTS.
+
+Configurações:
+
+- `config/gts/config.json`: regras econômicas, moedas, preços e limites.
+- `config/gts/lang.json`: textos e mensagens originais.
+- `config/gts/layouts.json`: aparência e organização dos menus.
+
+Os dados existentes continuam sob as regras do mod recuperado; a atualização não solicita apagar anúncios, histórico nem saldos. Valide uma cópia do servidor antes de substituir sua instalação principal.
+
+## Comandos principais
+
+| Comando | Função |
+| --- | --- |
+| `/gts` | Abrir os anúncios |
+| `/gts pokemon` / `/gts item` | Filtrar por tipo |
+| `/gts sell pokemon <slot> <preço>` | Vender Pokémon do time |
+| `/gts sell item <preço> <quantidade> [tamanho da pilha]` | Vender o item em mãos |
+| `/gts manage` | Gerenciar anúncios próprios |
+| `/gts expired` | Recuperar anúncios expirados |
+| `/gts history` | Ver histórico |
+| `/gts search <busca>` | Buscar anúncios |
+| `/gts reload` | Recarregar configuração, idioma e layouts |
+
+O comando de venda abre seleção de moeda e confirmação depois de receber seus argumentos. `/gts sell` sozinho mostra a ajuda, como na versão recuperada.
+
+Permissões de usuário incluem `gts.user.base`, `gts.user.sell`, `gts.user.manage`, `gts.user.expired`, `gts.user.history` e `gts.user.search`. Moedas usam `gts.currency.dollars` e `gts.currency.tokens`. Recarregar exige `gts.admin.reload` (nível de operador 3 por padrão); remover anúncio alheio exige `gts.moderation.remove` (nível 2). Consulte [PermissionProvider](src/main/java/org/pokesplash/gts/permission/PermissionProvider.java) para a lista completa.
+
+## Estrutura do projeto
 
 ```text
-dist/GTS-Shirokai-2.6.2-fabric-currency-back-fix.jar
+src/main/java/       Fontes atuais, editáveis e compiladas pelo Gradle
+src/main/resources/  Metadados Fabric e mixins
+src/test/java/       Testes de layouts, moedas e regressão do menu
+src/recovered/       Referência decompilada da versão 2.6.2
+patch/               Código do hotfix antigo da versão 2.6.2
+tools/               Gerador antigo de hotfix, preservado para reprodução
+vendor/              JAR 2.6.2 original fornecido pelo proprietário
+docs/                Guias e exemplos de configuração
+.github/             Automação de build, testes, artefatos e releases
 ```
 
-Este é um hotfix reproduzível **a partir do JAR original**, que está em `vendor/`. Não é uma recompilação integral das fontes recuperadas. O teste usa a implementação real de ChestTemplate extraída da biblioteca incluída; tipos mínimos de Minecraft são usados somente no teste, sem iniciar o jogo, e não entram no mod gerado. Ele reproduz o reset original e verifica dez reaberturas com duas moedas, botão de cancelar e slots independentes. O script também verifica que somente `CurrencySelection.class` mudou e uma classe auxiliar foi adicionada; os demais arquivos são preservados byte a byte no conteúdo.
+O histórico Git anterior, comentários originais e arquivos de build perdidos não estavam no JAR. O projeto atual reconstrói o processo de compilação e conserva a referência da recuperação. A base é Cobblemon GTS de **bencrow11**, com modificações Shirokai; a licença MIT original está preservada em [LICENSE](LICENSE).
 
-## Instalação e teste no servidor
-
-1. Faça backup do mod atual, das configurações e dos dados de vendas.
-2. Pare o servidor e substitua o JAR antigo pelo corrigido em `mods/`. Mantenha apenas uma cópia do mod GTS.
-3. Inicie o servidor com suas dependências habituais.
-4. Use uma conta de teste: `/gts sell` → escolha a moeda → **trocar moeda**. Confira se as moedas e o botão de cancelar reaparecem; repita a troca.
-5. Selecione outra moeda e confirme uma única venda; confira moeda, preço e anúncio. Confira também cancelar e uma venda de item/Pokémon conforme os fluxos usados no servidor.
-
-O teste dentro do Minecraft ainda é necessário: não foi executado um servidor completo nem validada uma transação real nesta recuperação.
-
-## Organização e limites da recuperação
-
-- `src/recovered/java/`: fontes de referência decompiladas com Vineflower 1.11.1, preservando o comportamento original anterior ao hotfix.
-- `src/recovered/resources/`: metadados e configuração dos mixins recuperados.
-- `patch/src/`: código novo e compilável da correção.
-- `tools/`: geração e aplicação da alteração localizada no bytecode.
-- `tests/`: teste de regressão do modelo de seleção.
-- `vendor/`: binário original para reprodução e comparação.
-
-Os nomes `net.minecraft.class_*` são nomes intermediary presentes no artefato Fabric distribuído. O histórico Git, comentários originais, arquivos Gradle, versões exatas de todas as dependências de desenvolvimento e testes originais não podem ser restaurados a partir desse JAR. As fontes decompiladas podem exigir ajustes antes de uma compilação integral; não são apresentadas como projeto Gradle pronto. Alterar essas fontes de referência não altera automaticamente o hotfix: o script compila somente `patch/src/` e o aplicador em `tools/`.
-
-Para retomar desenvolvimento completo, o próximo trabalho é reconstruir um projeto Fabric/Loom com os mappings e as dependências compatíveis, corrigir os artefatos de decompilação e validar o mod em servidor. A versão interna permanece 2.6.2 para evitar mudanças incidentais de compatibilidade; o sufixo no nome do arquivo identifica o hotfix.
-
-SHA-256 do original: `3f379ae44b1cf5881031540be1a7db0d1f540ab83ff6f074b0f228c8d058885c`.
+Consulte [CONTRIBUTING.md](CONTRIBUTING.md) para desenvolvimento local e [CHANGELOG.md](CHANGELOG.md) para as mudanças. O GitHub Actions gera artefatos em cada build; uma tag `v<versão>` prepara uma release em rascunho para revisão.
