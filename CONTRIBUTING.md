@@ -10,4 +10,4 @@ Para desenvolvimento local, use `./gradlew runServer`. O servidor fica em `run/s
 
 Uma mudança em layout deve preservar os callbacks de navegação, as validações de venda e a confirmação única. Verifique moedas, confirmação, voltar, cancelar, paginação e permissões no servidor de teste antes de usar em produção.
 
-Ao criar uma tag `v<mod_version>`, o workflow Release recompila, testa e prepara uma release em rascunho com JARs e checksums. Revise-a no GitHub antes de publicar.
+Ao criar uma tag `v<mod_version>`, o workflow Release recompila, testa e publica os JARs e checksums. Também é possível executá-lo manualmente pela aba Actions para enviar os arquivos à release da versão atual.

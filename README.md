@@ -90,4 +90,4 @@ docs/                Guias e exemplos de configuração
 
 O histórico Git anterior, comentários originais e arquivos de build perdidos não estavam no JAR. O projeto atual reconstrói o processo de compilação e conserva a referência da recuperação. A base é Cobblemon GTS de **bencrow11**, com modificações Shirokai; a licença MIT original está preservada em [LICENSE](LICENSE).
 
-Consulte [CONTRIBUTING.md](CONTRIBUTING.md) para desenvolvimento local e [CHANGELOG.md](CHANGELOG.md) para as mudanças. O GitHub Actions gera artefatos em cada build; uma tag `v<versão>` prepara uma release em rascunho para revisão.
+Consulte [CONTRIBUTING.md](CONTRIBUTING.md) para desenvolvimento local e [CHANGELOG.md](CHANGELOG.md) para as mudanças. O GitHub Actions gera artefatos em cada build; uma tag `v<versão>` publica uma release com os arquivos gerados.

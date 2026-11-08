@@ -9,7 +9,7 @@
 - `/gts reload` recarrega layouts; configuração inválida mantém o último layout válido e informa o erro.
 - Correção do menu vazio ao voltar da confirmação para trocar moeda preservada no código-fonte.
 - Testes automatizados de configuração e da sessão de seleção de moeda.
-- Workflows de build/teste, artefatos e releases em rascunho.
+- Workflows de build/teste, artefatos e publicação de releases.
 
 ## 2.6.2 — recuperação
 
