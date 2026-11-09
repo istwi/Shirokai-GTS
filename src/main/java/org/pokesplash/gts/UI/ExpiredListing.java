@@ -55,10 +55,7 @@ public class ExpiredListing {
                   );
                   action.getPlayer().sendMessage(ColorUtil.parse(message));
                } else {
-                  message = Utils.formatPlaceholders(
-                     Gts.language.getReturnListingFail(), 0.0, listing.getListingName(), listing.getSellerName(), action.getPlayer().getName().getString()
-                  );
-                  action.getPlayer().sendMessage(ColorUtil.parse(message));
+                  action.getPlayer().sendMessage(Text.literal(org.pokesplash.gts.economy.GtsTransactions.claimFailure(action.getPlayer(), listing, true)));
                }
 
                UIManager.openUIForcefully(action.getPlayer(), new ExpiredListings().getPage(action.getPlayer().getUuid()));

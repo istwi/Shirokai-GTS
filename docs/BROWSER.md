@@ -55,7 +55,7 @@ A resposta é interceptada e não é enviada ao chat público. Digite **`cancela
 
 ## Editar o preço
 
-Relógio direito → seu anúncio → **Editar preço**. Informe o novo preço em mensagem privada e confira os valores anterior/novo antes de confirmar.
+Relógio direito → seu anúncio ativo → **Editar preço**. Informe o novo preço em mensagem privada e confira os valores anterior/novo antes de confirmar.
 
 A edição preserva moeda, item/Pokémon, quantidade, ID e expiração. Somente o vendedor com permissão de venda e da moeda pode editar. Preços mínimos/máximos e regras de moeda são revalidados; um anúncio vendido, expirado, bloqueado ou alterado desde a abertura da edição não pode ser confirmado com os dados antigos. Falhas de persistência restauram o preço anterior em memória. Não há movimento de saldo nessa operação.
 
@@ -83,3 +83,10 @@ Ao abrir seu anúncio, a **name tag** para editar preço fica no espaço **11**,
 `layouts.json` agora usa **versão 3**. Configurações das versões 1 e 2 são migradas com backup `layouts.json.v1.backup` ou `layouts.json.v2.backup`. A antiga disposição de `manage` é substituída para retirar os botões antigos; um título explicitamente personalizado é preservado. A tela de compra mantém suas posições anteriores, pois as ações do vendedor agora estão na configuração separada `own_listing`.
 
 Anúncios expirados continuam acessíveis por `/gts expired`; o livro para criar vendas permanece no menu principal.
+
+
+### Expirados e recuperação na versão 2.8.3
+
+Meu GTS reúne ativos e expirados, identificando estes com `[EXPIRADO]` e uma descrição vermelha. Abra um expirado e use o baú à direita para receber o item/Pokémon. Não é necessário usar a tela antiga de expirados, embora `/gts expired` continue disponível. O mesmo botão de voltar continua sendo o único controle da barra inferior.
+
+Se um anúncio antigo ficou retido após reiniciar/trocar o mod, a mensagem informa o ID e orienta a administração. `/gts recuperar` consulta a situação; `/gts recuperar confirmar` só libera criações concluídas compatíveis e salva backup dos recibos alterados. Consulte [RECOVERY.md](RECOVERY.md) antes de confirmar em dados que tenham sido restaurados de backups.

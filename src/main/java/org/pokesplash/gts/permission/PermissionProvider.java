@@ -17,6 +17,7 @@ public abstract class PermissionProvider {
       this.permissions.put("sell", new GtsPermission("sell", "gts.user.sell", 0));
       this.permissions.put("manage", new GtsPermission("manage", "gts.user.manage", 0));
       this.permissions.put("reload", new GtsPermission("reload", "gts.admin.reload", 3));
+      this.permissions.put("recover", new GtsPermission("recover", "gts.admin.recover", 4));
       this.permissions.put("saveitem", new GtsPermission("saveitem", "gts.admin.saveitem", 3));
       this.permissions.put("search", new GtsPermission("search", "gts.user.search", 0));
       this.permissions.put("timeout", new GtsPermission("timeout", "gts.moderation.timeout", 2));

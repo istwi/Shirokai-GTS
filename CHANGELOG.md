@@ -1,5 +1,15 @@
 # Changelog
 
+## 2.8.3
+
+- Retirada informa a causa: anúncio fora da lista, inventário sem espaço ou fase de transação retida.
+- `/gts recuperar` fornece diagnóstico de anúncios retidos após reinício; `confirmar` libera apenas criações concluídas compatíveis com o anúncio, com backup e auditoria.
+- Compras/devoluções incertas, dados divergentes e provedores externos permanecem protegidos.
+- Encerramento limpo do journal registrado diretamente no evento de parada do Fabric.
+- Meu GTS inclui ativos e expirados, com `[EXPIRADO]` e retirada pelo mesmo baú à direita.
+- A seleção de um anúncio atualiza seu estado ativo/expirado antes de abrir os detalhes; expirados não oferecem edição de preço.
+- Testes de reprodução da retenção pós-reinício, recuperação com backup, elegibilidade e proteção de estados incertos.
+
 ## 2.8.2
 
 - Tela do anúncio próprio: editar preço com name tag no espaço 11, item/Pokémon no 13 e retirada no 15.

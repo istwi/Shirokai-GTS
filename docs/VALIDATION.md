@@ -1,3 +1,18 @@
+# Validação 2.8.3
+
+- Reprodução do cenário de marca de sessão não limpa com criações concluídas: 32 anúncios ativos ficaram retidos, impedindo a retirada.
+- `/gts recuperar` identificou 32 criações concluídas correspondentes aos anúncios; o comando de consulta não mudou os recibos.
+- A confirmação criou 32 backups, liberou as criações e manteve o registro incerto de devolução inalterado (hash verificado).
+- Um anúncio antes retido voltou a ser retirado: terra passou de 34 para 35 no inventário, e o anúncio saiu da lista ativa.
+- Expiração real de um anúncio de teste: Meu GTS mostrou `[EXPIRADO]` e a descrição vermelha; o detalhe exibiu o baú à direita e nenhum editor de preço.
+- Recuperação de um recibo de criação retido associado a esse expirado: diagnóstico e confirmação funcionaram também na lista expirada.
+- Retirada do expirado devolveu o diamante (1 → 2), removeu o anúncio da lista e gravou `RETURNED`. Nova confirmação de recuperação retornou zero criações, sem entregar outra unidade.
+- Encerramento normal com `/stop`, além de testes automatizados de elegibilidade, backups, marcadores limpos/não limpos, recibos divergentes e fases financeiras que devem continuar retidas.
+
+Essas verificações usam dados isolados do servidor local. Os arquivos do servidor do proprietário não estão disponíveis nesta sessão; ele deve executar o diagnóstico e a confirmação administrativa aplicável na instalação dele. Dados divergentes ou transações incertas não são liberados automaticamente.
+
+---
+
 # Validação 2.8.2
 
 - Compilação completa e 31 testes aprovados, incluindo defaults/migração para layouts versão 3.

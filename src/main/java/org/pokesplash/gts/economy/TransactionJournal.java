@@ -125,21 +125,38 @@ public final class TransactionJournal {
    }
 
    public synchronized boolean blocked(UUID id) {
-      if (this.uncertain.contains(id)) {
-         return true;
-      } else {
-         Path path = this.directory.resolve(id + ".json");
-         if (Files.notExists(path)) {
-            return false;
-         } else {
-            try {
-               TransactionJournal.Record record = (TransactionJournal.Record)this.gson.fromJson(Files.readString(path), TransactionJournal.Record.class);
-               return record == null || !id.equals(record.listingId) || !"ABORTED".equals(record.phase) && !"CREATED".equals(record.phase);
-            } catch (Exception var4) {
-               return true;
-            }
-         }
+      return inspect(id).blocked();
+   }
+
+   public record Inspection(boolean blocked, String phase, Record record) {}
+
+   public synchronized Inspection inspect(UUID id) {
+      Path path = this.directory.resolve(id + ".json");
+      if (Files.notExists(path)) return new Inspection(this.uncertain.contains(id), "NO_RECORD", null);
+      try {
+         Record record = this.gson.fromJson(Files.readString(path), Record.class);
+         if (record == null || !id.equals(record.listingId)) return new Inspection(true, "INVALID_RECORD", null);
+         boolean blocked = this.uncertain.contains(id) || !("ABORTED".equals(record.phase) || "CREATED".equals(record.phase));
+         return new Inspection(blocked, record.phase == null ? "UNKNOWN" : record.phase, record);
+      } catch (Exception error) { return new Inspection(true, "UNREADABLE_RECORD", null); }
+   }
+
+   /** Explicit administrative recovery; never reopens a purchase or delivery intent. */
+   public synchronized void restoreCompletedCreation(Record expected, String actor) throws IOException {
+      if (this.session == null) throw new IOException("No active journal session");
+      if (expected == null || expected.listingId == null) throw new IOException("Missing receipt");
+      Inspection inspection = inspect(expected.listingId);
+      Record current = inspection.record();
+      if (current == null || !RecoveryPolicy.completedCreation(current)
+          || !this.gson.toJsonTree(current).equals(this.gson.toJsonTree(expected))) {
+         throw new IOException("Receipt changed or is not a completed creation");
       }
+      Path backup = this.directory.resolve("recovery-backups").resolve(expected.listingId + "-" + UUID.randomUUID() + ".json");
+      AtomicFiles.write(backup, Files.readString(this.directory.resolve(expected.listingId + ".json")));
+      current.session = this.session;
+      current.recoveredBy = actor;
+      current.recoveredAt = System.currentTimeMillis();
+      phase(current, "CREATED");
    }
 
    public synchronized void phase(TransactionJournal.Record record, String phase) throws IOException {
@@ -169,6 +186,8 @@ public final class TransactionJournal {
       public String session;
       public String phaseBeforeRecovery;
       public long updatedAt;
+      public String recoveredBy;
+      public long recoveredAt;
 
       public Record(UUID id, UUID buyer, UUID seller, String currency, BigDecimal price, BigDecimal proceeds, String listingJson, String buyerName) {
          this.listingId = id;

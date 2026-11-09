@@ -23,12 +23,23 @@ import org.pokesplash.gts.UI.module.PokemonInfo;
 
 public class ManageListings {
    public Page getPage(UUID owner) {
-      List<Listing> listings = Gts.listings.getListingsByPlayer(owner);
+      List<Listing> listings = new ArrayList<>(Gts.listings.getListingsByPlayer(owner));
+      java.util.Set<UUID> seen = new java.util.HashSet<>();
+      java.util.Set<UUID> expiredIds = new java.util.HashSet<>();
+      listings.forEach(listing -> seen.add(listing.getId()));
+      for (Listing listing : Gts.listings.getExpiredListingsOfPlayer(owner)) {
+         if (seen.add(listing.getId())) { listings.add(listing); expiredIds.add(listing.getId()); }
+      }
       List<Button> buttons = new ArrayList<>();
       if (!listings.isEmpty()) {
          listings.forEach(
             listing -> {
+               boolean expired = expiredIds.contains(listing.getId());
                List<Text> lore = ListingInfo.parse(listing);
+               if (expired) {
+                  lore.add(0, org.pokesplash.gts.util.ColorUtil.parse("<red><bold>ANÚNCIO EXPIRADO</bold></red>"));
+                  lore.add(org.pokesplash.gts.util.ColorUtil.parse("<yellow>Clique para retirar seu item ou Pokémon."));
+               }
                if (listing.isPokemon()) {
                   PokemonListing pokemonListing = (PokemonListing)listing;
                   lore.addAll(PokemonInfo.parse(pokemonListing.getListing()));
@@ -36,11 +47,20 @@ public class ManageListings {
 
                Button button = GooeyButton.builder()
                   .display(listing.getIcon())
-                  .with(DataComponentTypes.CUSTOM_NAME, listing.getDisplayName())
+                  .with(DataComponentTypes.CUSTOM_NAME, expired
+                     ? listing.getDisplayName().append(Text.literal(" [EXPIRADO]").formatted(net.minecraft.util.Formatting.RED)) : listing.getDisplayName())
                   .with(DataComponentTypes.LORE, new LoreComponent(lore))
                   .onClick(action -> {
                      ServerPlayerEntity sender = action.getPlayer();
-                     Page pagex = new SingleListing().getPage(sender, listing);
+                     Listing current = Gts.listings.getActiveListingById(listing.getId());
+                     boolean nowExpired = current == null;
+                     if (nowExpired) current = Gts.listings.getExpiredListingById(listing.getId());
+                     if (current == null || !sender.getUuid().equals(current.getSellerUuid())) {
+                        sender.sendMessage(Text.literal("§cO anúncio mudou. A lista foi atualizada."));
+                        UIManager.openUIForcefully(sender, new ManageListings().getPage(sender.getUuid()));
+                        return;
+                     }
+                     Page pagex = new SingleListing().getPage(sender, current, nowExpired);
                      UIManager.openUIForcefully(sender, pagex);
                   })
                   .build();
@@ -52,7 +72,8 @@ public class ManageListings {
       ChestTemplate template = ChestTemplate.builder(6)
          .fill(Filler.getButton())
          .set(49, ListingBrowser.button(net.minecraft.item.Items.ARROW, "<yellow>Voltar ao GTS",
-            java.util.List.of("<gray>Esquerdo: voltar ao GTS normal.",
+            java.util.List.of("<gray>Ativos: " + (listings.size() - expiredIds.size()) + " | Expirados: " + expiredIds.size(),
+               "<gray>Esquerdo: voltar ao GTS normal.",
                "<gray>Se houver mais páginas de vendas:",
                "<aqua>Direito: próxima página.", "<aqua>Shift + direito: página anterior."), action -> {
                   switch (action.getClickType()) {

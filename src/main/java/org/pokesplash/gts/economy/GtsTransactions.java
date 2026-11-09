@@ -47,6 +47,70 @@ public final class GtsTransactions {
       return JOURNAL.blocked(listing.getId());
    }
 
+   public record RecoveryEntry(UUID id, String phase, boolean eligible) {}
+
+   public static java.util.List<RecoveryEntry> recoveryReport() {
+      requireServerThread();
+      java.util.Map<UUID, Listing> all = new java.util.LinkedHashMap<>();
+      Gts.listings.getListings().forEach(l -> all.put(l.getId(), l));
+      Gts.listings.getExpiredListings().values().forEach(entries -> entries.forEach(l -> all.put(l.getId(), l)));
+      java.util.List<RecoveryEntry> report = new java.util.ArrayList<>();
+      for (Listing listing : all.values()) {
+         var inspection = JOURNAL.inspect(listing.getId());
+         if (inspection.blocked()) report.add(new RecoveryEntry(listing.getId(), inspection.phase(), recoveryMatches(listing, inspection.record())));
+      }
+      return report;
+   }
+
+   private static boolean recoveryMatches(Listing listing, TransactionJournal.Record receipt) {
+      if (org.pokesplash.gts.api.provider.ListingAPI.getHighestPriority() != null || !listing.isListingValid()) return false;
+      if (Gts.listings.getActiveListingById(listing.getId()) != null && Gts.listings.getExpiredListingById(listing.getId()) != null) return false;
+      try {
+         if (listing.getIcon().isEmpty()) return false;
+         if (listing instanceof PokemonListing pokemon) {
+            ServerPlayerEntity seller = Gts.server.getPlayerManager().getPlayer(listing.getSellerUuid());
+            if (seller != null) {
+               UUID pokemonId = pokemon.getListing().getUuid();
+               if (Cobblemon.INSTANCE.getStorage().getParty(seller).get(pokemonId) != null
+                   || Cobblemon.INSTANCE.getStorage().getPC(seller).get(pokemonId) != null) return false;
+            }
+         }
+         return RecoveryPolicy.matches(receipt, Utils.newGson().toJsonTree(listing).getAsJsonObject());
+      } catch (RuntimeException error) { return false; }
+   }
+
+   public static int recoverCompletedCreations(String actor) {
+      requireServerThread();
+      int restored = 0;
+      for (RecoveryEntry entry : recoveryReport()) {
+         if (!entry.eligible()) continue;
+         Listing listing = Gts.listings.getListingById(entry.id());
+         var receipt = JOURNAL.inspect(entry.id()).record();
+         if (listing == null || !recoveryMatches(listing, receipt)) continue;
+         try {
+            JOURNAL.restoreCompletedCreation(receipt, actor);
+            restored++;
+            Gts.LOGGER.info("Recovered completed creation " + entry.id() + " by " + actor + "; receipt backed up");
+         } catch (IOException error) { Gts.LOGGER.error("Could not recover " + entry.id() + ": " + error.getMessage()); }
+      }
+      return restored;
+   }
+
+   public static String claimFailure(ServerPlayerEntity player, Listing listing, boolean expired) {
+      if (!player.getUuid().equals(listing.getSellerUuid())) return "§cSomente o dono pode retirar este anúncio.";
+      var inspection = JOURNAL.inspect(listing.getId());
+      if (inspection.blocked()) {
+         if (RecoveryPolicy.completedCreation(inspection.record())) {
+            return "§cAnúncio antigo retido após reinício. Peça a um administrador para usar /gts recuperar. ID: " + listing.getId();
+         }
+         return "§cTransação em verificação (" + inspection.phase() + "). Contate a administração. ID: " + listing.getId();
+      }
+      Listing canonical = expired ? Gts.listings.getExpiredListingById(listing.getId()) : Gts.listings.getActiveListingById(listing.getId());
+      if (canonical == null) return "§cEste anúncio saiu desta lista. Atualize Meu GTS e tente novamente.";
+      if (canonical instanceof ItemListing item && !Utils.hasSpace(player, item.getListing())) return "§cLibere espaço no inventário para receber o item.";
+      return "§cNão foi possível concluir a retirada. Contate a administração com o ID: " + listing.getId();
+   }
+
    public static boolean permitted(ServerPlayerEntity player, String currency) {
       String permission = currency.equals("impactor:dollars") ? "currencyDollars" : (currency.equals("impactor:tokens") ? "currencyTokens" : null);
       return permission == null || Gts.permissions.hasPermission(player, permission);

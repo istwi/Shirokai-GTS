@@ -38,6 +38,7 @@ public class GtsCommand extends BaseCommand {
             new List(),
             new History(),
             new Reload(),
+            new org.pokesplash.gts.command.subcommand.Recover(),
             new Open(),
             new Debug(),
             new Search(),

@@ -5,7 +5,6 @@ import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents.ServerStarted;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents.ServerStarting;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents.ServerStopped;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents.EndTick;
@@ -24,8 +23,7 @@ public class GtsFabric implements ModInitializer {
          org.pokesplash.gts.UI.ListingBrowser.disconnect(handler.player.getUuid());
       });
       ServerLifecycleEvents.SERVER_STARTING.register((ServerStarting)server -> GtsTransactions.startSession());
-      ServerLifecycleEvents.SERVER_STARTED
-         .register((ServerStarted)server -> ServerLifecycleEvents.SERVER_STOPPED.register((ServerStopped)stopped -> GtsTransactions.closeSession()));
+      ServerLifecycleEvents.SERVER_STOPPED.register((ServerStopped)server -> GtsTransactions.closeSession());
       CommandRegistrationCallback.EVENT.register(CommandsRegistry::registerCommands);
       ServerWorldEvents.LOAD.register((Load)(t, e) -> {
          Gts.server = t;

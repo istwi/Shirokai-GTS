@@ -1,10 +1,10 @@
 # Shirokai GTS
 
-Sistema de comércio de Pokémon e itens entre jogadores para **Minecraft 1.21.1 / Fabric / Cobblemon**. Projeto reconstruído a partir do mod Shirokai 2.6.2, com fontes editáveis, compilação completa e menus configuráveis na versão **2.8.2**.
+Sistema de comércio de Pokémon e itens entre jogadores para **Minecraft 1.21.1 / Fabric / Cobblemon**. Projeto reconstruído a partir do mod Shirokai 2.6.2, com fontes editáveis, compilação completa e menus configuráveis na versão **2.8.3**.
 
 [![Build and test](https://github.com/istwi/Shirokai-GTS/actions/workflows/build.yml/badge.svg)](https://github.com/istwi/Shirokai-GTS/actions/workflows/build.yml)
 
-## Novo navegador 2.8.2
+## Novo navegador 2.8.3
 
 O menu principal segue a nova disposição: relógio de categorias, setas anterior/próxima, funil de ordenação, livro para criar venda, balde para atualizar e relógio **Meu GTS**. São 28 anúncios por página, com borda de vidro cinza. Há filtros para Itens, Pokémon, Shiny, HA, Legendary, Ultra Beast, Caixas e Itens especiais, além de anúncios próprios e moedas. Clique direito retrocede filtros/inverte ordenação; Shift + esquerdo no funil salva seu padrão pessoal.
 
@@ -22,6 +22,14 @@ Você pode mudar títulos, quantidade de linhas, posições, ícones, nomes, des
 
 O problema do menu vazio ao voltar para trocar a moeda foi corrigido: a seleção conserva um modelo reutilizável, sem reutilizar um construtor já esvaziado.
 
+## Anúncios antigos retidos após reinício
+
+Instale a versão atual e, como administrador/console, execute `/gts recuperar` para consultar o diagnóstico. Para liberar as criações concluídas que correspondem ao anúncio salvo, use `/gts recuperar confirmar`. Cada recibo alterado recebe backup; compras/devoluções incertas continuam protegidas. Permissão: `gts.admin.recover` (operador 4).
+
+**[Guia de recuperação e limites →](docs/RECOVERY.md)**
+
+Meu GTS agora reúne anúncios ativos e expirados. Os expirados ficam marcados em vermelho e podem ser retirados pelo baú à direita, mantendo a mesma grade e a seta única.
+
 ## Compilar
 
 Instale **JDK 21** e execute na raiz do projeto:
@@ -36,7 +44,7 @@ No Windows:
 gradlew.bat build
 ```
 
-O Gradle Wrapper baixa o Gradle com verificação SHA-256. O build compila todas as fontes atuais, executa os testes e gera o mod distribuível em **`build/libs/GTS-Shirokai-2.8.2.jar`**. O arquivo com sufixo `-sources.jar` contém as fontes e não deve ser instalado como mod.
+O Gradle Wrapper baixa o Gradle com verificação SHA-256. O build compila todas as fontes atuais, executa os testes e gera o mod distribuível em **`build/libs/GTS-Shirokai-2.8.3.jar`**. O arquivo com sufixo `-sources.jar` contém as fontes e não deve ser instalado como mod.
 
 A primeira compilação baixa Minecraft, mappings e dependências. O desenvolvimento usa Yarn `1.21.1+build.3` e Fabric Loom; não é necessário aplicar o hotfix antigo no binário para gerar a versão atual.
 
@@ -77,6 +85,7 @@ Os dados existentes continuam sob as regras do mod recuperado; a atualização n
 | `/gts history` | Ver histórico |
 | `/gts search <busca>` | Buscar anúncios |
 | `/gts reload` | Recarregar configuração, idioma e layouts |
+| `/gts recuperar [confirmar]` | Diagnóstico/recuperação administrativa de criações retidas após reinício |
 
 `/gts sell` sozinho abre o assistente de venda. Os comandos completos continuam abrindo seleção de moeda e confirmação depois de receber seus argumentos.
 

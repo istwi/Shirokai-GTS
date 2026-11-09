@@ -25,7 +25,13 @@ import org.pokesplash.gts.util.Utils;
 
 public class SingleListing {
    public Page getPage(ServerPlayerEntity viewer, Listing listing) {
+      return getPage(viewer, listing, false);
+   }
+
+   public Page getPage(ServerPlayerEntity viewer, Listing listing, boolean expired) {
+      if (expired && !viewer.getUuid().equals(listing.getSellerUuid())) throw new IllegalArgumentException("Somente o dono pode retirar um anúncio expirado.");
       List<Text> lore = ListingInfo.parse(listing);
+      if (expired) lore.add(0, ColorUtil.parse("<red><bold>ANÚNCIO EXPIRADO</bold></red>"));
       if (listing.isPokemon()) {
          lore.addAll(PokemonInfo.parse((PokemonListing)listing));
       }
@@ -82,17 +88,19 @@ public class SingleListing {
             action -> {
                boolean success;
                if (action.getPlayer().getUuid().equals(listing.getSellerUuid())) {
-                  success = GtsAPI.cancelAndReturnListing(action.getPlayer(), listing);
+                  success = expired ? GtsAPI.returnListing(action.getPlayer(), listing)
+                     : GtsAPI.cancelAndReturnListing(action.getPlayer(), listing);
                } else {
                   success = Gts.permissions.hasPermission(action.getPlayer(), "remove") && GtsAPI.cancelListing(listing);
                }
 
                if (!success) {
-                  action.getPlayer().sendMessage(ColorUtil.parse(Gts.language.getMultiCurrency().unavailable));
+                  action.getPlayer().sendMessage(Text.literal(GtsTransactions.claimFailure(action.getPlayer(), listing, expired)));
                } else {
                   Text message = ColorUtil.parse(
                      Utils.formatPlaceholders(
-                        Gts.language.getCancelListing(), 0.0, listing.getListingName(), listing.getSellerName(), action.getPlayer().getName().getString()
+                        expired ? Gts.language.getReturnListingSuccess() : Gts.language.getCancelListing(),
+                        0.0, listing.getListingName(), listing.getSellerName(), action.getPlayer().getName().getString()
                      )
                   );
                   action.getPlayer().sendMessage(message);
@@ -113,10 +121,12 @@ public class SingleListing {
       Builder template = ChestTemplate.builder(3).fill(Filler.getButton()).set(13, pokemon).set(15, cancel);
       boolean owner = viewer.getUuid().equals(listing.getSellerUuid());
       if (owner) {
+         if (!expired) {
          template.set(11, ListingBrowser.button(net.minecraft.item.Items.NAME_TAG, "<yellow>Editar preço", java.util.List.of("<gray>Escolha e confirme um novo preço."),
             action -> PriceEditor.open(action.getPlayer(), listing)));
-         template.set(15, ListingBrowser.button(net.minecraft.item.Items.CHEST, "<yellow>Retirar do GTS",
-            java.util.List.of("<gray>Retira o anúncio e devolve o item ou Pokémon."), removeListing::onClick));
+         }
+         template.set(15, ListingBrowser.button(net.minecraft.item.Items.CHEST, expired ? "<yellow>Retirar anúncio expirado" : "<yellow>Retirar do GTS",
+            java.util.List.of("<gray>Devolve seu item ou Pokémon."), removeListing::onClick));
          template.set(22, ListingBrowser.button(net.minecraft.item.Items.ARROW, "<yellow>Voltar para Meu GTS", java.util.List.of(),
             action -> UIManager.openUIForcefully(action.getPlayer(), new ManageListings().getPage(action.getPlayer().getUuid()))));
       } else {
@@ -128,6 +138,6 @@ public class SingleListing {
       }
 
       String menu = owner ? "own_listing" : "listing";
-      return GooeyPage.builder().template(Layouts.apply(menu, template.build())).title(Layouts.title(menu, listing.getUiTitle())).build();
+      return GooeyPage.builder().template(Layouts.apply(menu, template.build())).title(Layouts.title(menu, expired ? "Retirar anúncio expirado" : listing.getUiTitle())).build();
    }
 }
