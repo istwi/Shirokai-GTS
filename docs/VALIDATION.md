@@ -1,3 +1,9 @@
+# Validação 2.8.1
+
+Compilação completa aprovada; 29 testes passaram, incluindo a conversão de painéis de botões para cinza, a preservação de nomes/callbacks e a proteção da cor de produtos e prévias.
+
+---
+
 # Validação 2.8.0
 
 Verificada em 9 de novembro de 2026 com Minecraft 1.21.1 / Fabric Loader 0.17.2, Cobblemon 1.8.3 e Impactor 5.3.5:

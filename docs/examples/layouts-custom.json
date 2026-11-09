@@ -19,7 +19,7 @@
     "sell_confirm": {
       "rows": 4,
       "title": "Confirme seu anúncio",
-      "filler": {"item": "minecraft:black_stained_glass_pane", "name": " "},
+      "filler": {"item": "minecraft:gray_stained_glass_pane", "name": " "},
       "buttons": {
         "confirm": {"slot": 20, "appearance": {"item": "minecraft:emerald", "name": "<green>Publicar anúncio</green>"}},
         "asset": {"slot": 13},

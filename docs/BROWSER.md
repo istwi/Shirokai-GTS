@@ -1,6 +1,6 @@
 # Novo navegador GTS — 2.8.0
 
-O `/gts` usa um inventário de seis linhas, borda de vidro azul-claro e **28 anúncios por página**, nas quatro linhas centrais. A disposição segue a referência enviada pelo proprietário.
+O `/gts` usa um inventário de seis linhas, borda de vidro cinza e **28 anúncios por página**, nas quatro linhas centrais. A disposição segue a referência enviada pelo proprietário.
 
 ## Barra inferior
 
@@ -68,3 +68,7 @@ Para provedores externos registrados na `ListingAPI`, a edição direta é desab
 Os novos controles `category_filter`, `sort_filter`, `create`, `refresh` e `manage`, além das setas, permanecem configuráveis. As novas telas são `sell_create`, `sell_party` e `price_confirm`; em `listing`, existe `edit_price`. Em `manage`, existem `back` e `create`. Configurações personalizadas antigas podem precisar ajustar posições que coincidam com um novo controle; erros de sobreposição são informados ao recarregar.
 
 Consulte [LAYOUTS.md](LAYOUTS.md) e [o exemplo completo](examples/layouts.json). O visual dos itens em si depende das texturas do cliente; a disposição e as funções são fornecidas pelo mod.
+
+### Vidros na versão 2.8.1
+
+Painéis de vidro usados como fundo, decoração, botões ou ícones de moedas são exibidos como `minecraft:gray_stained_glass_pane`, inclusive quando uma configuração antiga indica outra cor. Produtos anunciados e prévias do item negociado preservam o item original.

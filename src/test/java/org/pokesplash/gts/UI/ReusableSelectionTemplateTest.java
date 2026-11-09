@@ -67,4 +67,24 @@ class ReusableSelectionTemplateTest {
         result.onClick(null);
         assertEquals(1, clicks.get());
     }
+
+    @Test void glassControlsBecomeGrayWithoutChangingLabelsOrCallbacks() {
+        AtomicInteger clicks = new AtomicInteger();
+        Text label = Text.literal("Confirmar");
+        Button original = GooeyButton.builder().display(new ItemStack(Items.GREEN_STAINED_GLASS_PANE))
+                .with(DataComponentTypes.CUSTOM_NAME, label).onClick(a -> clicks.incrementAndGet()).build();
+        Button changed = Layouts.appearance(original, new LayoutConfig.Visual());
+        assertSame(Items.GRAY_STAINED_GLASS_PANE, changed.getDisplay().getItem());
+        assertEquals(label, changed.getDisplay().get(DataComponentTypes.CUSTOM_NAME));
+        changed.onClick(null);
+        assertEquals(1, clicks.get());
+        assertSame(Items.GREEN_STAINED_GLASS_PANE, original.getDisplay().getItem());
+    }
+
+    @Test void actualGlassItemsBeingTradedKeepTheirColor() {
+        Button product = GooeyButton.builder().display(new ItemStack(Items.BLUE_STAINED_GLASS_PANE, 32)).build();
+        Button preview = Layouts.appearance(product, new LayoutConfig.Visual(), false);
+        assertSame(Items.BLUE_STAINED_GLASS_PANE, preview.getDisplay().getItem());
+        assertEquals(32, preview.getDisplay().getCount());
+    }
 }

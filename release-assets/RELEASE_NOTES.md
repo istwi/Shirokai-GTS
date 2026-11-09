@@ -1,13 +1,7 @@
-Novo navegador GTS com o layout solicitado: borda azul-claro, 28 anúncios por página, relógio de categorias, setas, funil de ordenação, livro de venda, atualização pelo balde e Meu GTS.
+Todos os painéis de vidro decorativos e dos botões dos menus foram trocados por **gray stained glass pane**. A padronização também vale para configurações antigas, sem exigir que você apague os arquivos.
 
-- Categorias: Itens, Pokémon, Shiny, HA, Legendary, Ultra Beast, Caixas, Itens especiais, anúncios próprios e moedas.
-- Clique esquerdo/direito nos filtros; Shift + esquerdo no funil salva a ordenação padrão pessoal.
-- Assistente de venda pelo livro ou `/gts sell`, com preço e quantidade em mensagem privada e confirmação no fluxo de moedas existente.
-- Edição de preço pelo vendedor em Meu GTS, com confirmação e revalidação das regras.
-- Backup e migração do `layouts.json` anterior para a versão 2.
+Nomes, descrições e ações dos botões são preservados. Os itens anunciados e suas prévias mantêm sua cor original.
 
-Configure os IDs/tags/nomes das caixas e itens especiais em `config/gts/browser.json`. Guia: https://github.com/istwi/Shirokai-GTS/blob/main/docs/BROWSER.md
+Inclui as funções da versão 2.8.0: filtros por clique, ordenação, livro de criação de venda, atualizar, Meu GTS e edição de preço.
 
-Minecraft 1.21.1, Java 21, Fabric Loader 0.17.2, Fabric API 0.116.6+1.21.1, Cobblemon 1.8.3 e Impactor 5.3.5 com suas dependências.
-
-Validação: compilação completa, testes automatizados e teste em servidor local com criação de anúncio, edição de preço, filtros, preferências e navegação entre páginas. Faça backup antes de atualizar seu servidor.
+Minecraft 1.21.1 / Java 21 / Fabric / Cobblemon 1.8.3 / Impactor 5.3.5.

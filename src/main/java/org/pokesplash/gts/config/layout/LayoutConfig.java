@@ -35,7 +35,7 @@ public final class LayoutConfig {
         c.menu("gts", 6, "category_filter", 46, "previous", 47, "sort_filter", 48,
                 "create", 49, "refresh", 50, "next", 51, "manage", 52);
         Menu main = c.menus.get("gts");
-        main.filler.item = "minecraft:light_blue_stained_glass_pane";
+        main.filler.item = "minecraft:gray_stained_glass_pane";
         main.filler.name = " ";
         for (int row = 1; row <= 4; row++) for (int col = 1; col <= 7; col++) main.contentSlots.add(row * 9 + col);
         c.list("items", "sort_price", 47, "sort_newest", 48, "sort_name", 49, "pokemon", 50, "manage", 51, "previous", 45, "next", 53, "relist", 52);

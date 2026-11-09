@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.8.1
+
+- Painéis de vidro de fundos, decorações e botões dos menus padronizados para vidro cinza, inclusive em configurações antigas.
+- Nomes, descrições, componentes e callbacks preservados na troca de ícone.
+- Ícones de produtos e prévias do item negociado mantêm a cor original.
+
 ## 2.8.0
 
 - Novo navegador de seis linhas, bordas e 28 anúncios por página, com os sete controles solicitados.

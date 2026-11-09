@@ -8,6 +8,9 @@ import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.LoreComponent;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.item.BlockItem;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.StainedGlassPaneBlock;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 import org.pokesplash.gts.Gts;
@@ -65,7 +68,7 @@ public final class Layouts {
             if (id.equals("sell_currency")) {
                 for (int i = 0; i < base.contentSlots.size(); i++) {
                     Button button = original.getSlot(base.contentSlots.get(i)).getButton().orElse(null);
-                    result.set(config.contentSlots.get(i), button);
+                    result.set(config.contentSlots.get(i), button == null ? null : appearance(button, new LayoutConfig.Visual()));
                 }
             } else {
                 // PaginationHelper discovers these slots and creates as many pages as needed.
@@ -75,15 +78,20 @@ public final class Layouts {
         for (var entry : base.buttons.entrySet()) {
             Button source = original.getSlot(entry.getValue().slot).getButton().orElse(null);
             LayoutConfig.Control control = config.buttons.get(entry.getKey());
-            if (source != null) result.set(control.slot, appearance(source, control.appearance));
+            if (source != null) result.set(control.slot, appearance(source, control.appearance, !entry.getKey().equals("asset")));
         }
         for (var decoration : config.decorations) result.set(decoration.slot, appearance(Filler.getButton(), decoration.appearance));
         return result;
     }
 
     static Button appearance(Button source, LayoutConfig.Visual visual) {
-        if (visual.item == null && visual.name == null && visual.lore == null) return source;
+        return appearance(source, visual, true);
+    }
+
+    static Button appearance(Button source, LayoutConfig.Visual visual, boolean normalizeGlass) {
         ItemStack original = source.getDisplay();
+        boolean originalGlass = isGlassPane(original);
+        if (visual.item == null && visual.name == null && visual.lore == null && !(normalizeGlass && originalGlass)) return source;
         ItemStack display = visual.item == null ? original.copy()
                 : new ItemStack(Registries.ITEM.get(Identifier.of(visual.item)), original.getCount());
         // Changing only an icon must retain the action label and economic information.
@@ -95,6 +103,16 @@ public final class Layouts {
         }
         if (visual.name != null) display.set(DataComponentTypes.CUSTOM_NAME, ColorUtil.parse(visual.name));
         if (visual.lore != null) display.set(DataComponentTypes.LORE, new LoreComponent(visual.lore.stream().map(ColorUtil::parse).toList()));
+        if (normalizeGlass && isGlassPane(display) && display.getItem() != Items.GRAY_STAINED_GLASS_PANE) {
+            ItemStack gray = new ItemStack(Items.GRAY_STAINED_GLASS_PANE, display.getCount());
+            gray.applyComponentsFrom(display.getComponents());
+            display = gray;
+        }
         return GooeyButton.builder().display(display).onClick(source::onClick).build();
+    }
+
+    private static boolean isGlassPane(ItemStack stack) {
+        return stack.getItem() instanceof BlockItem item
+                && (item.getBlock() instanceof StainedGlassPaneBlock || item.getBlock() == Blocks.GLASS_PANE);
     }
 }

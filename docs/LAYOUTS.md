@@ -76,7 +76,7 @@ Este arquivo parcial é válido e preserva os outros menus:
     "sell_confirm": {
       "rows": 4,
       "title": "Confirme seu anúncio",
-      "filler": {"item": "minecraft:black_stained_glass_pane", "name": " "},
+      "filler": {"item": "minecraft:gray_stained_glass_pane", "name": " "},
       "buttons": {
         "confirm": {
           "slot": 20,
