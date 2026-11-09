@@ -99,7 +99,7 @@ public final class ListingBrowser {
         template.set(49, button(Items.WRITABLE_BOOK, "<green>Criar uma venda", List.of("<gray>Escolha um item ou Pokémon para anunciar."), a -> SaleWizard.open(a.getPlayer())));
         template.set(50, button(Items.WATER_BUCKET, "<aqua>Atualizar GTS", List.of("<gray>Recarrega os anúncios disponíveis.", "<gray>Mantém seu filtro e sua ordenação."), a -> open(a.getPlayer())));
         template.set(51, arrow(true));
-        template.set(52, button(Items.CLOCK, "<gold>Meu GTS", List.of("<gray>Veja suas vendas e edite os preços.", "<gray>Acesse anúncios expirados e crie vendas."), a -> {
+        template.set(52, button(Items.CLOCK, "<gold>Meu GTS", List.of("<gray>Veja suas vendas e edite os preços.", "<gray>Retire anúncios e receba seus itens de volta."), a -> {
             if (Gts.permissions.hasPermission(a.getPlayer(), "manage")) UIManager.openUIForcefully(a.getPlayer(), new ManageListings().getPage(a.getPlayer().getUuid()));
             else a.getPlayer().sendMessage(Text.literal("§cVocê não tem permissão para gerenciar anúncios."));
         }));

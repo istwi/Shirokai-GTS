@@ -4,7 +4,7 @@ import java.util.*;
 
 /** Serializable menu settings. Slots are zero-based, left to right. */
 public final class LayoutConfig {
-    public int version = 2;
+    public int version = 3;
     public Map<String, Menu> menus = new LinkedHashMap<>();
 
     public static final class Visual {
@@ -40,11 +40,17 @@ public final class LayoutConfig {
         for (int row = 1; row <= 4; row++) for (int col = 1; col <= 7; col++) main.contentSlots.add(row * 9 + col);
         c.list("items", "sort_price", 47, "sort_newest", 48, "sort_name", 49, "pokemon", 50, "manage", 51, "previous", 45, "next", 53, "relist", 52);
         c.list("pokemon", "sort_price", 47, "sort_newest", 48, "sort_name", 49, "items", 50, "manage", 51, "previous", 45, "next", 53, "relist", 52);
-        c.list("manage", "pokemon", 48, "expired", 49, "items", 50, "previous", 45, "next", 53, "relist", 52);
+        c.menu("manage", 6, "back", 49);
+        Menu manage = c.menus.get("manage");
+        manage.title = "Meu GTS | {current}/{total}";
+        manage.filler.item = "minecraft:gray_stained_glass_pane";
+        manage.filler.name = " ";
+        manage.contentSlots.addAll(main.contentSlots);
         c.list("expired", "pokemon", 48, "manage", 49, "items", 50, "previous", 45, "next", 53, "relist", 52);
         c.list("history", "pokemon", 48, "manage", 49, "items", 50, "previous", 45, "next", 53);
         c.list("search", "pokemon", 48, "manage", 49, "items", 50, "previous", 45, "next", 53, "relist", 52);
         c.menu("listing", 3, "primary", 11, "asset", 13, "back", 15, "admin_remove", 22);
+        c.menu("own_listing", 3, "edit_price", 11, "asset", 13, "withdraw", 15, "back", 22);
         c.menu("expired_listing", 3, "receive", 11, "asset", 13, "back", 15);
         c.menu("sell_currency", 3, "cancel", 22);
         for (int i = 10; i <= 16; i++) c.menus.get("sell_currency").contentSlots.add(i);
@@ -53,9 +59,6 @@ public final class LayoutConfig {
         c.menu("sell_party", 3, "party_1", 10, "party_2", 11, "party_3", 12,
                 "party_4", 13, "party_5", 14, "party_6", 15, "back", 22);
         c.menu("price_confirm", 3, "confirm", 11, "asset", 13, "cancel", 15);
-        c.menus.get("listing").buttons.put("edit_price", new Control(20));
-        c.menus.get("manage").buttons.put("back", new Control(46));
-        c.menus.get("manage").buttons.put("create", new Control(47));
         return c;
     }
 
@@ -72,7 +75,7 @@ public final class LayoutConfig {
     }
 
     public void validate() {
-        if (version != 2) throw new IllegalArgumentException("Unsupported layouts version: " + version);
+        if (version != 3) throw new IllegalArgumentException("Unsupported layouts version: " + version);
         LayoutConfig defaults = defaults();
         if (menus == null || !menus.keySet().equals(defaults.menus.keySet())) throw new IllegalArgumentException("Unknown or missing menu id");
         for (var entry : menus.entrySet()) {

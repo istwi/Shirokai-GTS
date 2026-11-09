@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.8.2
+
+- Tela do anúncio próprio: editar preço com name tag no espaço 11, item/Pokémon no 13 e retirada no 15.
+- Retirada pelo vendedor devolve o item/Pokémon pelo fluxo transacional existente e reabre Meu GTS.
+- Meu GTS com a mesma borda cinza e grade de 28 espaços do navegador principal, sem a barra antiga.
+- Um único botão Voltar no espaço 49; direito e Shift + direito navegam entre páginas de vendas quando necessário.
+- Layouts versão 3: migração de Meu GTS com backup e configuração separada `own_listing`, preservando a tela de compra.
+
 ## 2.8.1
 
 - Painéis de vidro de fundos, decorações e botões dos menus padronizados para vidro cinza, inclusive em configurações antigas.

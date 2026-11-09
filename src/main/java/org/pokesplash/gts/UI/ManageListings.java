@@ -3,7 +3,6 @@ package org.pokesplash.gts.UI;
 import ca.landonjw.gooeylibs2.api.UIManager;
 import ca.landonjw.gooeylibs2.api.button.Button;
 import ca.landonjw.gooeylibs2.api.button.GooeyButton;
-import ca.landonjw.gooeylibs2.api.button.PlaceholderButton;
 import ca.landonjw.gooeylibs2.api.helpers.PaginationHelper;
 import ca.landonjw.gooeylibs2.api.page.LinkedPage;
 import ca.landonjw.gooeylibs2.api.page.Page;
@@ -19,18 +18,12 @@ import org.pokesplash.gts.Gts;
 import org.pokesplash.gts.Listing.Listing;
 import org.pokesplash.gts.Listing.PokemonListing;
 import org.pokesplash.gts.UI.button.Filler;
-import org.pokesplash.gts.UI.button.NextPage;
-import org.pokesplash.gts.UI.button.PreviousPage;
-import org.pokesplash.gts.UI.button.RelistAll;
-import org.pokesplash.gts.UI.button.SeeItemListings;
-import org.pokesplash.gts.UI.button.SeePokemonListings;
 import org.pokesplash.gts.UI.module.ListingInfo;
 import org.pokesplash.gts.UI.module.PokemonInfo;
 
 public class ManageListings {
    public Page getPage(UUID owner) {
       List<Listing> listings = Gts.listings.getListingsByPlayer(owner);
-      PlaceholderButton placeholder = new PlaceholderButton();
       List<Button> buttons = new ArrayList<>();
       if (!listings.isEmpty()) {
          listings.forEach(
@@ -57,28 +50,28 @@ public class ManageListings {
       }
 
       ChestTemplate template = ChestTemplate.builder(6)
-         .rectangle(0, 0, 5, 9, placeholder)
          .fill(Filler.getButton())
-         .set(48, SeePokemonListings.getButton())
-         .set(49, org.pokesplash.gts.UI.button.ExpiredListings.getButton())
-         .set(50, SeeItemListings.getButton())
-         .set(53, NextPage.getButton())
-         .set(45, PreviousPage.getButton())
-         .set(52, RelistAll.getButton())
-         .set(46, ListingBrowser.button(net.minecraft.item.Items.ARROW, "<yellow>Voltar ao GTS", java.util.List.of(), a -> ListingBrowser.open(a.getPlayer())))
-         .set(47, ListingBrowser.button(net.minecraft.item.Items.WRITABLE_BOOK, "<green>Criar uma venda", java.util.List.of(), a -> SaleWizard.open(a.getPlayer())))
+         .set(49, ListingBrowser.button(net.minecraft.item.Items.ARROW, "<yellow>Voltar ao GTS",
+            java.util.List.of("<gray>Esquerdo: voltar ao GTS normal.",
+               "<gray>Se houver mais páginas de vendas:",
+               "<aqua>Direito: próxima página.", "<aqua>Shift + direito: página anterior."), action -> {
+                  switch (action.getClickType()) {
+                     case LEFT_CLICK -> ListingBrowser.open(action.getPlayer());
+                     case RIGHT_CLICK, SHIFT_RIGHT_CLICK -> {
+                        if (action.getPage() instanceof LinkedPage current) {
+                           LinkedPage target = action.getClickType() == ca.landonjw.gooeylibs2.api.button.ButtonClick.RIGHT_CLICK
+                              ? current.getNext() : current.getPrevious();
+                           if (target != null) UIManager.openUIForcefully(action.getPlayer(), target);
+                        }
+                     }
+                     default -> {}
+                  }
+               }))
          .build();
-      LinkedPage page = PaginationHelper.createPagesFromPlaceholders(Layouts.apply("manage", template), buttons, null);
-      page.setTitle(Layouts.title("manage", Gts.language.getManageTitle()));
-      this.setPageTitle(page);
-      return page;
-   }
-
-   private void setPageTitle(LinkedPage page) {
-      LinkedPage next = page.getNext();
-      if (next != null) {
-         next.setTitle(Layouts.title("manage", Gts.language.getManageTitle()));
-         this.setPageTitle(next);
+      LinkedPage first = PaginationHelper.createPagesFromPlaceholders(Layouts.apply("manage", template), buttons, null);
+      for (LinkedPage page = first; page != null; page = page.getNext()) {
+         page.setTitle(Layouts.title("manage", "Meu GTS | {current}/{total}"));
       }
+      return first;
    }
 }

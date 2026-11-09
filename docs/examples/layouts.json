@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 3,
   "menus": {
     "gts": {
       "rows": 6,
@@ -347,23 +347,13 @@
     },
     "manage": {
       "rows": 6,
-      "title": null,
+      "title": "Meu GTS | {current}/{total}",
       "filler": {
-        "item": null,
-        "name": null,
+        "item": "minecraft:gray_stained_glass_pane",
+        "name": " ",
         "lore": null
       },
       "contentSlots": [
-        0,
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
-        8,
-        9,
         10,
         11,
         12,
@@ -371,8 +361,6 @@
         14,
         15,
         16,
-        17,
-        18,
         19,
         20,
         21,
@@ -380,8 +368,6 @@
         23,
         24,
         25,
-        26,
-        27,
         28,
         29,
         30,
@@ -389,76 +375,17 @@
         32,
         33,
         34,
-        35,
-        36,
         37,
         38,
         39,
         40,
         41,
         42,
-        43,
-        44
+        43
       ],
       "buttons": {
-        "pokemon": {
-          "slot": 48,
-          "appearance": {
-            "item": null,
-            "name": null,
-            "lore": null
-          }
-        },
-        "expired": {
-          "slot": 49,
-          "appearance": {
-            "item": null,
-            "name": null,
-            "lore": null
-          }
-        },
-        "items": {
-          "slot": 50,
-          "appearance": {
-            "item": null,
-            "name": null,
-            "lore": null
-          }
-        },
-        "previous": {
-          "slot": 45,
-          "appearance": {
-            "item": null,
-            "name": null,
-            "lore": null
-          }
-        },
-        "next": {
-          "slot": 53,
-          "appearance": {
-            "item": null,
-            "name": null,
-            "lore": null
-          }
-        },
-        "relist": {
-          "slot": 52,
-          "appearance": {
-            "item": null,
-            "name": null,
-            "lore": null
-          }
-        },
         "back": {
-          "slot": 46,
-          "appearance": {
-            "item": null,
-            "name": null,
-            "lore": null
-          }
-        },
-        "create": {
-          "slot": 47,
+          "slot": 49,
           "appearance": {
             "item": null,
             "name": null,
@@ -822,9 +749,46 @@
             "name": null,
             "lore": null
           }
-        },
+        }
+      },
+      "decorations": []
+    },
+    "own_listing": {
+      "rows": 3,
+      "title": null,
+      "filler": {
+        "item": null,
+        "name": null,
+        "lore": null
+      },
+      "contentSlots": [],
+      "buttons": {
         "edit_price": {
-          "slot": 20,
+          "slot": 11,
+          "appearance": {
+            "item": null,
+            "name": null,
+            "lore": null
+          }
+        },
+        "asset": {
+          "slot": 13,
+          "appearance": {
+            "item": null,
+            "name": null,
+            "lore": null
+          }
+        },
+        "withdraw": {
+          "slot": 15,
+          "appearance": {
+            "item": null,
+            "name": null,
+            "lore": null
+          }
+        },
+        "back": {
+          "slot": 22,
           "appearance": {
             "item": null,
             "name": null,

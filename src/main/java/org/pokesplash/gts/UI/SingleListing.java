@@ -89,7 +89,6 @@ public class SingleListing {
 
                if (!success) {
                   action.getPlayer().sendMessage(ColorUtil.parse(Gts.language.getMultiCurrency().unavailable));
-                  UIManager.closeUI(action.getPlayer());
                } else {
                   Text message = ColorUtil.parse(
                      Utils.formatPlaceholders(
@@ -102,16 +101,24 @@ public class SingleListing {
                      seller.sendMessage(message);
                   }
 
+               }
+               if (action.getPlayer().getUuid().equals(listing.getSellerUuid())) {
+                  UIManager.openUIForcefully(action.getPlayer(), new ManageListings().getPage(action.getPlayer().getUuid()));
+               } else {
                   UIManager.closeUI(action.getPlayer());
                }
             }
          )
          .build();
       Builder template = ChestTemplate.builder(3).fill(Filler.getButton()).set(13, pokemon).set(15, cancel);
-      if (viewer.getUuid().equals(listing.getSellerUuid())) {
-         template.set(11, removeListing);
-         template.set(20, ListingBrowser.button(net.minecraft.item.Items.NAME_TAG, "<yellow>Editar preço", java.util.List.of("<gray>Escolha e confirme um novo preço."),
+      boolean owner = viewer.getUuid().equals(listing.getSellerUuid());
+      if (owner) {
+         template.set(11, ListingBrowser.button(net.minecraft.item.Items.NAME_TAG, "<yellow>Editar preço", java.util.List.of("<gray>Escolha e confirme um novo preço."),
             action -> PriceEditor.open(action.getPlayer(), listing)));
+         template.set(15, ListingBrowser.button(net.minecraft.item.Items.CHEST, "<yellow>Retirar do GTS",
+            java.util.List.of("<gray>Retira o anúncio e devolve o item ou Pokémon."), removeListing::onClick));
+         template.set(22, ListingBrowser.button(net.minecraft.item.Items.ARROW, "<yellow>Voltar para Meu GTS", java.util.List.of(),
+            action -> UIManager.openUIForcefully(action.getPlayer(), new ManageListings().getPage(action.getPlayer().getUuid()))));
       } else {
          template.set(11, purchase);
       }
@@ -120,6 +127,7 @@ public class SingleListing {
          template.set(22, removeListing);
       }
 
-      return GooeyPage.builder().template(Layouts.apply("listing", template.build())).title(Layouts.title("listing", listing.getUiTitle())).build();
+      String menu = owner ? "own_listing" : "listing";
+      return GooeyPage.builder().template(Layouts.apply(menu, template.build())).title(Layouts.title(menu, listing.getUiTitle())).build();
    }
 }

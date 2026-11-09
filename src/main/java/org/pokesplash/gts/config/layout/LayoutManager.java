@@ -21,10 +21,11 @@ public final class LayoutManager {
         JsonElement parsed = JsonParser.parseString(Files.readString(file, StandardCharsets.UTF_8));
         if (!parsed.isJsonObject()) throw new IllegalArgumentException("layouts.json must be an object");
         JsonObject json = parsed.getAsJsonObject();
-        boolean migrate = !json.has("version") || json.get("version").getAsInt() == 1;
+        int oldVersion = json.has("version") ? json.get("version").getAsInt() : 1;
+        boolean migrate = oldVersion == 1 || oldVersion == 2;
         if (migrate) {
             JsonObject menus = json.has("menus") && json.get("menus").isJsonObject() ? json.getAsJsonObject("menus") : null;
-            if (menus != null && menus.has("gts") && menus.get("gts").isJsonObject()) {
+            if (oldVersion == 1 && menus != null && menus.has("gts") && menus.get("gts").isJsonObject()) {
                 JsonObject old = menus.getAsJsonObject("gts");
                 JsonObject buttons = old.has("buttons") && old.get("buttons").isJsonObject() ? old.getAsJsonObject("buttons") : null;
                 if (buttons != null && (buttons.has("pokemon") || buttons.has("items") || buttons.has("relist"))) {
@@ -37,13 +38,23 @@ public final class LayoutManager {
                     menus.add("gts", replacement);
                 }
             }
-            json.addProperty("version", 2);
+            if (menus != null && menus.has("manage") && menus.get("manage").isJsonObject()) {
+                JsonObject old = menus.getAsJsonObject("manage");
+                JsonObject replacement = defaults.getAsJsonObject("menus").getAsJsonObject("manage").deepCopy();
+                if (old.has("title") && !old.get("title").isJsonNull()) replacement.add("title", old.get("title").deepCopy());
+                menus.add("manage", replacement);
+            }
+            if (menus != null && menus.has("listing") && menus.get("listing").isJsonObject()) {
+                JsonObject listing = menus.getAsJsonObject("listing");
+                if (listing.has("buttons") && listing.get("buttons").isJsonObject()) listing.getAsJsonObject("buttons").remove("edit_price");
+            }
+            json.addProperty("version", 3);
         }
         mergeMissing(json, defaults);
         LayoutConfig config = GSON.fromJson(json, LayoutConfig.class);
         config.validate();
         if (migrate) {
-            Path backup = file.resolveSibling(file.getFileName() + ".v1.backup");
+            Path backup = file.resolveSibling(file.getFileName() + ".v" + oldVersion + ".backup");
             if (!Files.exists(backup)) Files.copy(file, backup);
             AtomicFiles.write(file, GSON.toJson(json) + "\n");
         }

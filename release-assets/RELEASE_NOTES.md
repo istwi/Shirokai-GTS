@@ -1,7 +1,12 @@
-Todos os painéis de vidro decorativos e dos botões dos menus foram trocados por **gray stained glass pane**. A padronização também vale para configurações antigas, sem exigir que você apague os arquivos.
+## Ajustes dos menus
 
-Nomes, descrições e ações dos botões são preservados. Os itens anunciados e suas prévias mantêm sua cor original.
+- Name tag de editar preço movida para a posição superior esquerda do anúncio próprio.
+- Botão de **Retirar do GTS** na posição da direita: devolve o item/Pokémon e atualiza Meu GTS.
+- **Meu GTS** com a mesma borda cinza e grade de 28 anúncios do menu principal.
+- Barra antiga removida; somente uma seta para voltar ao GTS normal.
+- Havendo várias páginas de vendas, direito na mesma seta avança e Shift + direito retrocede.
+- Migração automática para layouts versão 3 com backup dos arquivos anteriores.
 
-Inclui as funções da versão 2.8.0: filtros por clique, ordenação, livro de criação de venda, atualizar, Meu GTS e edição de preço.
+As posições de compra de anúncios alheios foram preservadas. Minecraft 1.21.1 / Java 21 / Fabric / Cobblemon 1.8.3 / Impactor 5.3.5.
 
-Minecraft 1.21.1 / Java 21 / Fabric / Cobblemon 1.8.3 / Impactor 5.3.5.
+Testes automatizados e verificação em servidor local da disposição, retirada/devolução do item e navegação entre páginas.

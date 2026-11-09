@@ -11,7 +11,7 @@ class LayoutConfigTest {
 
     @Test void defaultsCoverEveryMenuAndValidate() {
         LayoutConfig c = LayoutConfig.defaults();
-        assertEquals(14, c.menus.size());
+        assertEquals(15, c.menus.size());
         assertDoesNotThrow(c::validate);
     }
 
@@ -60,7 +60,7 @@ class LayoutConfigTest {
 
     @Test void missingSectionsUseDefaultsWithoutRewritingFile() throws Exception {
         Path file = directory.resolve("layouts.json");
-        String partial = "{\"version\":2,\"menus\":{\"sell_confirm\":{\"title\":\"Confirmar\"}}}";
+        String partial = "{\"version\":3,\"menus\":{\"sell_confirm\":{\"title\":\"Confirmar\"}}}";
         Files.writeString(file, partial);
         LayoutConfig c = LayoutManager.load(file);
         assertEquals("Confirmar", c.menus.get("sell_confirm").title);
@@ -88,7 +88,7 @@ class LayoutConfigTest {
         String old = "{\"version\":1,\"menus\":{\"gts\":{\"title\":\"Meu GTS\",\"buttons\":{\"pokemon\":{\"slot\":48}}},\"sell_confirm\":{\"title\":\"Minha venda\"}}}";
         Files.writeString(file, old);
         var config = LayoutManager.load(file);
-        assertEquals(2, config.version);
+        assertEquals(3, config.version);
         assertEquals(28, config.menus.get("gts").contentSlots.size());
         assertEquals(46, config.menus.get("gts").buttons.get("category_filter").slot);
         assertEquals("Meu GTS", config.menus.get("gts").title);
@@ -97,5 +97,33 @@ class LayoutConfigTest {
         String migrated = Files.readString(file);
         LayoutManager.load(file);
         assertEquals(migrated, Files.readString(file));
+    }
+
+    @Test void manageHasSameGridAndGrayBorderWithOnlyOneControl() {
+        var c = LayoutConfig.defaults();
+        var m = c.menus.get("manage");
+        assertEquals(c.menus.get("gts").contentSlots, m.contentSlots);
+        assertEquals(6, m.rows);
+        assertEquals("minecraft:gray_stained_glass_pane", m.filler.item);
+        assertEquals(Set.of("back"), m.buttons.keySet());
+        assertEquals(49, m.buttons.get("back").slot);
+        assertEquals(11, c.menus.get("own_listing").buttons.get("edit_price").slot);
+        assertEquals(15, c.menus.get("own_listing").buttons.get("withdraw").slot);
+        assertDoesNotThrow(c::validate);
+    }
+
+    @Test void versionTwoManagementMigratesWithoutChangingBuyerLayout() throws Exception {
+        Path file = directory.resolve("layouts.json");
+        String old = "{\"version\":2,\"menus\":{\"manage\":{\"title\":\"Minha loja\",\"buttons\":{\"pokemon\":{\"slot\":48},\"create\":{\"slot\":47}}},\"listing\":{\"buttons\":{\"edit_price\":{\"slot\":20},\"primary\":{\"slot\":12}}}}}";
+        Files.writeString(file, old);
+        var c = LayoutManager.load(file);
+        assertEquals(3, c.version);
+        assertEquals(Set.of("back"), c.menus.get("manage").buttons.keySet());
+        assertEquals("Minha loja", c.menus.get("manage").title);
+        assertEquals(12, c.menus.get("listing").buttons.get("primary").slot);
+        assertFalse(c.menus.get("listing").buttons.containsKey("edit_price"));
+        assertEquals(11, c.menus.get("own_listing").buttons.get("edit_price").slot);
+        assertEquals(15, c.menus.get("own_listing").buttons.get("withdraw").slot);
+        assertEquals(old, Files.readString(directory.resolve("layouts.json.v2.backup")));
     }
 }

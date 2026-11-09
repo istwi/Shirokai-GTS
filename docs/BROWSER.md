@@ -12,7 +12,7 @@ O `/gts` usa um inventário de seis linhas, borda de vidro cinza e **28 anúncio
 | 49 | Livro e pena | Iniciar uma venda |
 | 50 | Balde de água | Atualizar os anúncios, preservando filtro, ordenação e página quando possível |
 | 51 | Seta | Próxima página |
-| 52 | Relógio direito | Meu GTS: anúncios próprios, edição de preço e acesso aos expirados |
+| 52 | Relógio direito | Meu GTS: anúncios próprios, edição de preço e retirada |
 
 No relógio esquerdo: **clique esquerdo avança**, **direito retrocede**. A descrição mostra todas as categorias e destaca a atual em verde: Todos, Meus anúncios, Itens, Pokémon, Shiny, HA, Legendary, Ultra Beast, Caixas, Itens especiais, PokéDollars e PokéTokens. HA é verificado com a propriedade oficial de habilidade oculta do Cobblemon; as classificações Legendary e Ultra Beast usam os dados do próprio Pokémon.
 
@@ -63,12 +63,23 @@ Para provedores externos registrados na `ListingAPI`, a edição direta é desab
 
 ## Migração e personalização
 
-`layouts.json` passa para **versão 2**. Ao carregar uma configuração da versão anterior, o mod guarda uma cópia em **`layouts.json.v1.backup`**, adapta a antiga barra principal e adiciona os novos controles. O título e o preenchimento personalizados do menu principal são preservados; sua disposição antiga permanece no backup. Os outros menus conservam suas configurações e recebem os campos novos que faltam.
+`layouts.json` usa **versão 3**. Configurações das versões 1 e 2 recebem backup `layouts.json.v1.backup` ou `layouts.json.v2.backup`. A antiga barra principal da versão 1 é adaptada; a antiga disposição de Meu GTS é substituída pela grade com apenas o botão Voltar. Títulos explicitamente personalizados são preservados. Os demais menus recebem os campos novos que faltam.
 
-Os novos controles `category_filter`, `sort_filter`, `create`, `refresh` e `manage`, além das setas, permanecem configuráveis. As novas telas são `sell_create`, `sell_party` e `price_confirm`; em `listing`, existe `edit_price`. Em `manage`, existem `back` e `create`. Configurações personalizadas antigas podem precisar ajustar posições que coincidam com um novo controle; erros de sobreposição são informados ao recarregar.
+Os controles do navegador principal permanecem configuráveis. As telas de venda são `sell_create`, `sell_party` e `price_confirm`. A tela do vendedor é `own_listing`, com `edit_price`, `asset`, `withdraw` e `back`; ela é separada de `listing`, usada na compra. Em `manage`, existe apenas `back`.
 
 Consulte [LAYOUTS.md](LAYOUTS.md) e [o exemplo completo](examples/layouts.json). O visual dos itens em si depende das texturas do cliente; a disposição e as funções são fornecidas pelo mod.
 
 ### Vidros na versão 2.8.1
 
 Painéis de vidro usados como fundo, decoração, botões ou ícones de moedas são exibidos como `minecraft:gray_stained_glass_pane`, inclusive quando uma configuração antiga indica outra cor. Produtos anunciados e prévias do item negociado preservam o item original.
+
+
+### Meu GTS na versão 2.8.2
+
+A tela tem seis linhas, borda cinza e a mesma grade de 28 anúncios do GTS principal. A antiga barra de botões foi removida. Existe uma única seta no espaço **49**: clique esquerdo volta ao GTS; direito avança uma página das suas vendas e Shift + direito volta uma página, quando houver mais de 28 anúncios. O título informa a página atual.
+
+Ao abrir seu anúncio, a **name tag** para editar preço fica no espaço **11**, acima da posição antiga. O item/Pokémon fica no **13** e o botão de **Retirar do GTS** no **15**, à direita. A seta inferior no **22** volta para Meu GTS. Retirar devolve o item/Pokémon pelo mesmo fluxo transacional já usado pelo mod e atualiza a lista de suas vendas.
+
+`layouts.json` agora usa **versão 3**. Configurações das versões 1 e 2 são migradas com backup `layouts.json.v1.backup` ou `layouts.json.v2.backup`. A antiga disposição de `manage` é substituída para retirar os botões antigos; um título explicitamente personalizado é preservado. A tela de compra mantém suas posições anteriores, pois as ações do vendedor agora estão na configuração separada `own_listing`.
+
+Anúncios expirados continuam acessíveis por `/gts expired`; o livro para criar vendas permanece no menu principal.

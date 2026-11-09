@@ -1,3 +1,16 @@
+# Validação 2.8.2
+
+- Compilação completa e 31 testes aprovados, incluindo defaults/migração para layouts versão 3.
+- Migração real do arquivo versão 2, com `layouts.json.v2.backup`.
+- Conta local com três vendas de diamante: Meu GTS exibiu a borda cinza, a grade central e apenas a seta no espaço 49.
+- Detalhes do anúncio próprio: name tag em 11, item em 13, baú de retirada em 15, volta para Meu GTS em 22; o antigo espaço 20 ficou preenchido por vidro cinza.
+- Clique na name tag superior abriu a edição de preço.
+- Retirada de uma venda: inventário passou de 2 para 3 diamantes, o anúncio saiu da lista e Meu GTS reabriu com duas vendas.
+- Com 32 vendas da conta, clique direito no único botão avançou para a página com quatro anúncios; Shift + direito retornou à primeira com 28.
+- Clique esquerdo na seta única abriu o GTS normal (`GTS | 1/3`). Servidor de teste encerrado normalmente após a verificação.
+
+---
+
 # Validação 2.8.1
 
 Compilação completa aprovada; 29 testes passaram, incluindo a conversão de painéis de botões para cinza, a preservação de nomes/callbacks e a proteção da cor de produtos e prévias.

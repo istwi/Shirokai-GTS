@@ -1,10 +1,10 @@
 # Shirokai GTS
 
-Sistema de comércio de Pokémon e itens entre jogadores para **Minecraft 1.21.1 / Fabric / Cobblemon**. Projeto reconstruído a partir do mod Shirokai 2.6.2, com fontes editáveis, compilação completa e menus configuráveis na versão **2.8.1**.
+Sistema de comércio de Pokémon e itens entre jogadores para **Minecraft 1.21.1 / Fabric / Cobblemon**. Projeto reconstruído a partir do mod Shirokai 2.6.2, com fontes editáveis, compilação completa e menus configuráveis na versão **2.8.2**.
 
 [![Build and test](https://github.com/istwi/Shirokai-GTS/actions/workflows/build.yml/badge.svg)](https://github.com/istwi/Shirokai-GTS/actions/workflows/build.yml)
 
-## Novo navegador 2.8.1
+## Novo navegador 2.8.2
 
 O menu principal segue a nova disposição: relógio de categorias, setas anterior/próxima, funil de ordenação, livro para criar venda, balde para atualizar e relógio **Meu GTS**. São 28 anúncios por página, com borda de vidro cinza. Há filtros para Itens, Pokémon, Shiny, HA, Legendary, Ultra Beast, Caixas e Itens especiais, além de anúncios próprios e moedas. Clique direito retrocede filtros/inverte ordenação; Shift + esquerdo no funil salva seu padrão pessoal.
 
@@ -14,7 +14,7 @@ O livro abre a escolha do item/Pokémon e solicita o preço em mensagem privada,
 
 ## O que você pode mudar
 
-Edite `config/gts/layouts.json` no servidor para personalizar **os 14 menus**: GTS principal, itens, Pokémon, busca, gerenciamento, expirados, histórico, detalhes do anúncio, recuperação, seleção de moedas e confirmação da venda.
+Edite `config/gts/layouts.json` no servidor para personalizar **os 15 menus**: GTS principal, itens, Pokémon, busca, gerenciamento, expirados, histórico, detalhes do anúncio, recuperação, seleção de moedas e confirmação da venda.
 
 Você pode mudar títulos, quantidade de linhas, posições, ícones, nomes, descrições, preenchimento e decorações. Execute `/gts reload` e reabra o menu. Configurações inválidas mantêm o último layout válido.
 
@@ -36,7 +36,7 @@ No Windows:
 gradlew.bat build
 ```
 
-O Gradle Wrapper baixa o Gradle com verificação SHA-256. O build compila todas as fontes atuais, executa os testes e gera o mod distribuível em **`build/libs/GTS-Shirokai-2.8.1.jar`**. O arquivo com sufixo `-sources.jar` contém as fontes e não deve ser instalado como mod.
+O Gradle Wrapper baixa o Gradle com verificação SHA-256. O build compila todas as fontes atuais, executa os testes e gera o mod distribuível em **`build/libs/GTS-Shirokai-2.8.2.jar`**. O arquivo com sufixo `-sources.jar` contém as fontes e não deve ser instalado como mod.
 
 A primeira compilação baixa Minecraft, mappings e dependências. O desenvolvimento usa Yarn `1.21.1+build.3` e Fabric Loom; não é necessário aplicar o hotfix antigo no binário para gerar a versão atual.
 

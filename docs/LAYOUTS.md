@@ -15,7 +15,8 @@ Comece pelo [exemplo completo dos padrões](examples/layouts.json) ou pelo [exem
 | `expired` | Anúncios expirados |
 | `history` | Histórico |
 | `search` | Resultados de busca |
-| `listing` | Compra, cancelamento ou remoção de anúncio |
+| `listing` | Compra e remoção administrativa de anúncio alheio |
+| `own_listing` | Editar preço e retirar seu próprio anúncio |
 | `expired_listing` | Recuperação de anúncio expirado |
 | `sell_currency` | Escolha/troca da moeda na venda |
 | `sell_confirm` | Confirmação da venda |
@@ -71,7 +72,7 @@ Este arquivo parcial é válido e preserva os outros menus:
 
 ```json
 {
-  "version": 2,
+  "version": 3,
   "menus": {
     "sell_confirm": {
       "rows": 4,
@@ -98,7 +99,7 @@ Este arquivo parcial é válido e preserva os outros menus:
 }
 ```
 
-As funções dos botões permanecem as mesmas. O botão `primary` em `listing` representa comprar para um visitante ou remover/cancelar para o vendedor; evite colocar nele um nome fixo que contradiga essas duas funções. Deixar a aparência dele em `null` mantém os textos corretos para cada jogador. `admin_remove` só tem ação de remoção quando a permissão original autoriza.
+As funções dos botões permanecem as mesmas. O botão `primary` em `listing` representa comprar. O vendedor usa a tela separada `own_listing`, com `edit_price` no espaço 11, `asset` no 13, `withdraw` no 15 e `back` no 22. `admin_remove` só tem ação de remoção quando a permissão original autoriza.
 
 ## Ícones e nomes das moedas
 
