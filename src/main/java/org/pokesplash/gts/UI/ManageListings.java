@@ -65,6 +65,8 @@ public class ManageListings {
          .set(53, NextPage.getButton())
          .set(45, PreviousPage.getButton())
          .set(52, RelistAll.getButton())
+         .set(46, ListingBrowser.button(net.minecraft.item.Items.ARROW, "<yellow>Voltar ao GTS", java.util.List.of(), a -> ListingBrowser.open(a.getPlayer())))
+         .set(47, ListingBrowser.button(net.minecraft.item.Items.WRITABLE_BOOK, "<green>Criar uma venda", java.util.List.of(), a -> SaleWizard.open(a.getPlayer())))
          .build();
       LinkedPage page = PaginationHelper.createPagesFromPlaceholders(Layouts.apply("manage", template), buttons, null);
       page.setTitle(Layouts.title("manage", Gts.language.getManageTitle()));

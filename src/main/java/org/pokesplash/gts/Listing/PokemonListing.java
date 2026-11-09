@@ -32,6 +32,7 @@ public class PokemonListing extends Listing<Pokemon> {
       super.version = String.copyValueOf(other.getVersion().toCharArray());
       super.setEndTime(other.getEndTime());
       super.currency = other.getCurrency();
+      super.createdAt = other.getCreatedAt();
    }
 
    public Pokemon getListing() {

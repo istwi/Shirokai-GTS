@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "menus": {
     "gts": {
       "title": "GTS Shirokai | {current}/{total}",

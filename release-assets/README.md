@@ -1,5 +1,7 @@
-# Pacote 2.7.0
+# Pacote atual: 2.8.0
 
-JAR compilado das fontes 2.7.0 e validado localmente com os 15 testes e o servidor descritos em `docs/VALIDATION.md`. `SHA256SUMS` permite verificar o arquivo. O workflow manual **Upload tested release JAR** anexa esta cópia à release `v2.7.0` sem repetir a compilação.
+`GTS-Shirokai-2.8.0.jar` foi compilado das fontes atuais e validado com 27 testes automatizados e o servidor descrito em `docs/VALIDATION.md`. `SHA256SUMS` verifica o pacote atual.
 
-Para desenvolver ou gerar versões novas, use `./gradlew build`. O workflow **Release** continua compilando as fontes antes de publicar novas versões.
+O workflow manual **Upload tested release JAR** confere o checksum e publica o pacote da versão em `gradle.properties`. O workflow **Release** permite recompilar e publicar pelo tag da versão. Para desenvolver, use `./gradlew build`.
+
+A cópia 2.7.0 permanece aqui como referência histórica; a release 2.7.0 continua disponível no GitHub.

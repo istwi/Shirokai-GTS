@@ -2,11 +2,8 @@ package org.pokesplash.gts.command.basecommand;
 
 import ca.landonjw.gooeylibs2.api.UIManager;
 import ca.landonjw.gooeylibs2.api.page.Page;
-import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import java.util.Arrays;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.Text;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -30,10 +27,6 @@ import org.pokesplash.gts.command.subcommand.Version;
 import org.pokesplash.gts.command.superclass.BaseCommand;
 
 public class GtsCommand extends BaseCommand {
-   private static final ScheduledExecutorService ASYNC_EXEC = Executors.newScheduledThreadPool(
-      2, new ThreadFactoryBuilder().setNameFormat("GTS-Search-Thread-#%d").setDaemon(true).build()
-   );
-
    public GtsCommand() {
       super(
          "gts",
@@ -78,7 +71,7 @@ public class GtsCommand extends BaseCommand {
 
    public void runSync(ServerPlayerEntity player) {
       try {
-         Page page = new AllListings().getPage();
+         Page page = new AllListings().getPage(player);
          UIManager.openUIForcefully(player, page);
       } catch (Exception var3) {
          var3.printStackTrace();
@@ -87,15 +80,7 @@ public class GtsCommand extends BaseCommand {
    }
 
    public void runAsync(ServerPlayerEntity player) {
-      player.sendMessage(Text.literal("§2Loading GTS Listings."));
-      ASYNC_EXEC.submit(() -> {
-         try {
-            Page page = new AllListings().getPage();
-            Gts.server.execute(() -> UIManager.openUIForcefully(player, page));
-         } catch (Exception var2) {
-            var2.printStackTrace();
-            player.sendMessage(Text.literal("§cSomething went wrong, please tell an admin to check the console."));
-         }
-      });
+      // Query/UI state and registry-backed item data belong to the server thread.
+      Gts.server.execute(() -> runSync(player));
    }
 }

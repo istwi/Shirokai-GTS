@@ -11,13 +11,13 @@ class LayoutConfigTest {
 
     @Test void defaultsCoverEveryMenuAndValidate() {
         LayoutConfig c = LayoutConfig.defaults();
-        assertEquals(11, c.menus.size());
+        assertEquals(14, c.menus.size());
         assertDoesNotThrow(c::validate);
     }
 
     @Test void rejectsCollidingButtonsAndContent() {
         LayoutConfig c = LayoutConfig.defaults();
-        c.menus.get("gts").buttons.get("next").slot = 0;
+        c.menus.get("gts").buttons.get("next").slot = 10;
         assertThrows(IllegalArgumentException.class, c::validate);
     }
 
@@ -60,7 +60,7 @@ class LayoutConfigTest {
 
     @Test void missingSectionsUseDefaultsWithoutRewritingFile() throws Exception {
         Path file = directory.resolve("layouts.json");
-        String partial = "{\"version\":1,\"menus\":{\"sell_confirm\":{\"title\":\"Confirmar\"}}}";
+        String partial = "{\"version\":2,\"menus\":{\"sell_confirm\":{\"title\":\"Confirmar\"}}}";
         Files.writeString(file, partial);
         LayoutConfig c = LayoutManager.load(file);
         assertEquals("Confirmar", c.menus.get("sell_confirm").title);
@@ -81,5 +81,21 @@ class LayoutConfigTest {
         var config = LayoutManager.load(Path.of("docs/examples/layouts-custom.json"));
         assertEquals(4, config.menus.get("sell_confirm").rows);
         assertEquals(31, config.menus.get("sell_confirm").buttons.get("change_currency").slot);
+    }
+
+    @Test void migratesOldToolbarWithBackupAndPreservesOtherMenus() throws Exception {
+        Path file = directory.resolve("layouts.json");
+        String old = "{\"version\":1,\"menus\":{\"gts\":{\"title\":\"Meu GTS\",\"buttons\":{\"pokemon\":{\"slot\":48}}},\"sell_confirm\":{\"title\":\"Minha venda\"}}}";
+        Files.writeString(file, old);
+        var config = LayoutManager.load(file);
+        assertEquals(2, config.version);
+        assertEquals(28, config.menus.get("gts").contentSlots.size());
+        assertEquals(46, config.menus.get("gts").buttons.get("category_filter").slot);
+        assertEquals("Meu GTS", config.menus.get("gts").title);
+        assertEquals("Minha venda", config.menus.get("sell_confirm").title);
+        assertEquals(old, Files.readString(directory.resolve("layouts.json.v1.backup")));
+        String migrated = Files.readString(file);
+        LayoutManager.load(file);
+        assertEquals(migrated, Files.readString(file));
     }
 }

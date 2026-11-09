@@ -1,25 +1,15 @@
 {
-  "version": 1,
+  "version": 2,
   "menus": {
     "gts": {
       "rows": 6,
       "title": null,
       "filler": {
-        "item": null,
-        "name": null,
+        "item": "minecraft:light_blue_stained_glass_pane",
+        "name": " ",
         "lore": null
       },
       "contentSlots": [
-        0,
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
-        8,
-        9,
         10,
         11,
         12,
@@ -27,8 +17,6 @@
         14,
         15,
         16,
-        17,
-        18,
         19,
         20,
         21,
@@ -36,8 +24,6 @@
         23,
         24,
         25,
-        26,
-        27,
         28,
         29,
         30,
@@ -45,36 +31,17 @@
         32,
         33,
         34,
-        35,
-        36,
         37,
         38,
         39,
         40,
         41,
         42,
-        43,
-        44
+        43
       ],
       "buttons": {
-        "pokemon": {
-          "slot": 48,
-          "appearance": {
-            "item": null,
-            "name": null,
-            "lore": null
-          }
-        },
-        "manage": {
-          "slot": 49,
-          "appearance": {
-            "item": null,
-            "name": null,
-            "lore": null
-          }
-        },
-        "items": {
-          "slot": 50,
+        "category_filter": {
+          "slot": 46,
           "appearance": {
             "item": null,
             "name": null,
@@ -82,7 +49,31 @@
           }
         },
         "previous": {
-          "slot": 45,
+          "slot": 47,
+          "appearance": {
+            "item": null,
+            "name": null,
+            "lore": null
+          }
+        },
+        "sort_filter": {
+          "slot": 48,
+          "appearance": {
+            "item": null,
+            "name": null,
+            "lore": null
+          }
+        },
+        "create": {
+          "slot": 49,
+          "appearance": {
+            "item": null,
+            "name": null,
+            "lore": null
+          }
+        },
+        "refresh": {
+          "slot": 50,
           "appearance": {
             "item": null,
             "name": null,
@@ -90,14 +81,14 @@
           }
         },
         "next": {
-          "slot": 53,
+          "slot": 51,
           "appearance": {
             "item": null,
             "name": null,
             "lore": null
           }
         },
-        "relist": {
+        "manage": {
           "slot": 52,
           "appearance": {
             "item": null,
@@ -452,6 +443,22 @@
         },
         "relist": {
           "slot": 52,
+          "appearance": {
+            "item": null,
+            "name": null,
+            "lore": null
+          }
+        },
+        "back": {
+          "slot": 46,
+          "appearance": {
+            "item": null,
+            "name": null,
+            "lore": null
+          }
+        },
+        "create": {
+          "slot": 47,
           "appearance": {
             "item": null,
             "name": null,
@@ -815,6 +822,14 @@
             "name": null,
             "lore": null
           }
+        },
+        "edit_price": {
+          "slot": 20,
+          "appearance": {
+            "item": null,
+            "name": null,
+            "lore": null
+          }
         }
       },
       "decorations": []
@@ -921,6 +936,149 @@
         },
         "change_currency": {
           "slot": 22,
+          "appearance": {
+            "item": null,
+            "name": null,
+            "lore": null
+          }
+        }
+      },
+      "decorations": []
+    },
+    "sell_create": {
+      "rows": 3,
+      "title": null,
+      "filler": {
+        "item": null,
+        "name": null,
+        "lore": null
+      },
+      "contentSlots": [],
+      "buttons": {
+        "item": {
+          "slot": 11,
+          "appearance": {
+            "item": null,
+            "name": null,
+            "lore": null
+          }
+        },
+        "pokemon": {
+          "slot": 15,
+          "appearance": {
+            "item": null,
+            "name": null,
+            "lore": null
+          }
+        },
+        "back": {
+          "slot": 22,
+          "appearance": {
+            "item": null,
+            "name": null,
+            "lore": null
+          }
+        }
+      },
+      "decorations": []
+    },
+    "sell_party": {
+      "rows": 3,
+      "title": null,
+      "filler": {
+        "item": null,
+        "name": null,
+        "lore": null
+      },
+      "contentSlots": [],
+      "buttons": {
+        "party_1": {
+          "slot": 10,
+          "appearance": {
+            "item": null,
+            "name": null,
+            "lore": null
+          }
+        },
+        "party_2": {
+          "slot": 11,
+          "appearance": {
+            "item": null,
+            "name": null,
+            "lore": null
+          }
+        },
+        "party_3": {
+          "slot": 12,
+          "appearance": {
+            "item": null,
+            "name": null,
+            "lore": null
+          }
+        },
+        "party_4": {
+          "slot": 13,
+          "appearance": {
+            "item": null,
+            "name": null,
+            "lore": null
+          }
+        },
+        "party_5": {
+          "slot": 14,
+          "appearance": {
+            "item": null,
+            "name": null,
+            "lore": null
+          }
+        },
+        "party_6": {
+          "slot": 15,
+          "appearance": {
+            "item": null,
+            "name": null,
+            "lore": null
+          }
+        },
+        "back": {
+          "slot": 22,
+          "appearance": {
+            "item": null,
+            "name": null,
+            "lore": null
+          }
+        }
+      },
+      "decorations": []
+    },
+    "price_confirm": {
+      "rows": 3,
+      "title": null,
+      "filler": {
+        "item": null,
+        "name": null,
+        "lore": null
+      },
+      "contentSlots": [],
+      "buttons": {
+        "confirm": {
+          "slot": 11,
+          "appearance": {
+            "item": null,
+            "name": null,
+            "lore": null
+          }
+        },
+        "asset": {
+          "slot": 13,
+          "appearance": {
+            "item": null,
+            "name": null,
+            "lore": null
+          }
+        },
+        "cancel": {
+          "slot": 15,
           "appearance": {
             "item": null,
             "name": null,

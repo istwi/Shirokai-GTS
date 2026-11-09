@@ -19,15 +19,18 @@ Comece pelo [exemplo completo dos padrões](examples/layouts.json) ou pelo [exem
 | `expired_listing` | Recuperação de anúncio expirado |
 | `sell_currency` | Escolha/troca da moeda na venda |
 | `sell_confirm` | Confirmação da venda |
+| `sell_create` | Escolha de venda de item/Pokémon |
+| `sell_party` | Escolha de Pokémon do time |
+| `price_confirm` | Confirmação da edição de preço |
 
-O fluxo de venda preservado do mod é `/gts sell pokemon <slot> <preço>` ou `/gts sell item <preço> <quantidade> [tamanho da pilha]`, seguido dos menus de moeda e confirmação. O comando incompleto `/gts sell` mostra as instruções de uso; esta versão não adiciona um editor de preço em inventário.
+O fluxo de venda preservado do mod é `/gts sell pokemon <slot> <preço>` ou `/gts sell item <preço> <quantidade> [tamanho da pilha]`, seguido dos menus de moeda e confirmação. Na versão 2.8.0, `/gts sell` sozinho abre o assistente de venda, que solicita o preço em mensagem privada. Veja [BROWSER.md](BROWSER.md).
 
 ## Campos de cada menu
 
 | Campo | Significado |
 | --- | --- |
 | `rows` | De 1 a 6 linhas, com 9 espaços por linha |
-| `title` | Título da tela; `null` preserva o título de `lang.json` ou do anúncio |
+| `title` | Título da tela; `null` usa o título padrão da tela; o navegador usa `GTS | {current}/{total}` |
 | `contentSlots` | Espaços para anúncios ou moedas; não podem ocupar botões |
 | `filler` | Aparência do preenchimento do fundo |
 | `buttons` | Botões existentes, identificados pela função, com `slot` e `appearance` |
@@ -68,7 +71,7 @@ Este arquivo parcial é válido e preserva os outros menus:
 
 ```json
 {
-  "version": 1,
+  "version": 2,
   "menus": {
     "sell_confirm": {
       "rows": 4,

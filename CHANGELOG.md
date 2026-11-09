@@ -1,5 +1,16 @@
 # Changelog
 
+## 2.8.0
+
+- Novo navegador de seis linhas, bordas e 28 anúncios por página, com os sete controles solicitados.
+- Filtros por categoria com clique esquerdo/direito, incluindo Shiny, HA, Legendary, Ultra Beast, caixas e itens especiais.
+- Ordenação por publicação, expiração, nome e preço; inversão e padrão persistente por jogador.
+- Regras de caixas/itens especiais em `config/gts/browser.json`.
+- Livro e `/gts sell` abrem um assistente com preço/quantidade em mensagem privada, seguido do fluxo de moeda/confirmar existente.
+- Meu GTS com edição de preço pelo vendedor, confirmação e revalidação de estado/permissões/regras econômicas.
+- Layouts versão 2 com backup e migração da barra anterior.
+- Novos testes de filtros, ordenação, preferências, entrada de venda e migração.
+
 ## 2.7.0
 
 - Projeto Fabric reconstruído com fontes editáveis em nomes Yarn, Gradle Wrapper e Java 21.

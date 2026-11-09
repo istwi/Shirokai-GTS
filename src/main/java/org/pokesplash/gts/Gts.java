@@ -62,5 +62,6 @@ public class Gts {
       config = new ConfigManager().loadConfig();
       language = new LangManager().loadLangFile();
       org.pokesplash.gts.UI.Layouts.reload();
+      org.pokesplash.gts.UI.ListingBrowser.reload();
    }
 }

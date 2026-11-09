@@ -27,6 +27,40 @@ import org.pokesplash.gts.impactor.ImpactorService;
 import org.pokesplash.gts.util.Utils;
 
 public abstract class GtsAPI {
+   public static Listing validatePriceChange(ServerPlayerEntity player, UUID id, double expected, double price) {
+      GtsTransactions.requireServerThread();
+      if (org.pokesplash.gts.api.provider.ListingAPI.getHighestPriority() != null) {
+         throw new IllegalArgumentException("Seu provedor externo de anúncios não oferece edição segura de preço.");
+      }
+      Listing active = Gts.listings.getActiveListingById(id);
+      if (active == null || !player.getUuid().equals(active.getSellerUuid()) || player.isDisconnected()
+          || !Gts.permissions.hasPermission(player, "sell") || GtsTransactions.blocked(active)
+          || Double.compare(active.getPrice(), expected) != 0
+          || (active.getEndTime() > 0 && active.getEndTime() <= System.currentTimeMillis())) {
+         throw new IllegalArgumentException("O anúncio mudou, expirou ou não pode ser editado por você.");
+      }
+      Gts.config.getMultiCurrency().requireSelectable(active.getCurrency());
+      if (!GtsTransactions.permitted(player, active.getCurrency())) throw new IllegalArgumentException("Moeda sem permissão de uso.");
+      try {
+         if (active instanceof PokemonListing pokemon) ListingPrices.pokemon(pokemon.getListing(), active.getCurrency(), price);
+         else ListingPrices.item(((ItemListing)active).getListing(), active.getCurrency(), price);
+      } catch (MinimumPricePolicy.Rejected error) {
+         throw new IllegalArgumentException(ListingPrices.rejection(error, active.getCurrency(), active.getListingName(), player.getName().getString()));
+      }
+      return active;
+   }
+
+   public static void changeListingPrice(ServerPlayerEntity player, UUID id, double expected, double price) {
+      Listing active = validatePriceChange(player, id, expected, price);
+      active.setPrice(price);
+      try {
+         if (!active.write("/config/gts/listings")) throw new IllegalArgumentException("Não foi possível salvar o novo preço.");
+      } catch (RuntimeException error) {
+         active.setPrice(expected);
+         throw error;
+      }
+   }
+
    public static boolean cancelListing(Listing listing) {
       GtsTransactions.requireServerThread();
       if (GtsTransactions.blocked(listing)) {

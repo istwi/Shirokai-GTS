@@ -29,6 +29,10 @@ public class Reload extends Subcommand {
          context.getSource().sendMessage(Text.literal(org.pokesplash.gts.UI.Layouts.lastError()));
          return 0;
       }
+      if (org.pokesplash.gts.UI.ListingBrowser.lastError() != null) {
+         context.getSource().sendMessage(Text.literal(org.pokesplash.gts.UI.ListingBrowser.lastError()));
+         return 0;
+      }
       ((ServerCommandSource)context.getSource())
          .sendMessage(
             Text.literal(

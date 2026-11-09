@@ -42,7 +42,7 @@ public class List extends Subcommand {
    public LiteralCommandNode<ServerCommandSource> build() {
       return ((LiteralArgumentBuilder)((LiteralArgumentBuilder)((LiteralArgumentBuilder)((LiteralArgumentBuilder)CommandManager.literal("sell")
                      .requires(ctx -> ctx.isExecutedByPlayer() ? Gts.permissions.hasPermission(ctx.getPlayer(), "sell") : true))
-                  .executes(this::showUsage))
+                  .executes(this::openWizard))
                .then(
                   ((LiteralArgumentBuilder)((LiteralArgumentBuilder)CommandManager.literal("pokemon")
                            .requires(ctx -> ctx.isExecutedByPlayer() ? Gts.config.isEnablePokemonSales() : false))
@@ -91,6 +91,12 @@ public class List extends Subcommand {
                   )
             ))
          .build();
+   }
+
+   private int openWizard(CommandContext<ServerCommandSource> context) {
+      if (!context.getSource().isExecutedByPlayer()) return showUsage(context);
+      org.pokesplash.gts.UI.SaleWizard.open(context.getSource().getPlayer());
+      return 1;
    }
 
    @Override

@@ -23,6 +23,7 @@ public abstract class Listing<T> {
    private double price;
    protected String currency;
    private long endTime;
+   protected long createdAt;
    private boolean isPokemon;
 
    public String getCurrency() {
@@ -36,6 +37,7 @@ public abstract class Listing<T> {
    protected Listing(UUID sellerUuid, String sellerName, double price, boolean isPokemon, String currency) {
       this.currency = Objects.requireNonNull(currency);
       this.id = UUID.randomUUID();
+      this.createdAt = System.currentTimeMillis();
       this.sellerUuid = sellerUuid;
       this.sellerName = sellerName;
       this.price = price;
@@ -80,6 +82,20 @@ public abstract class Listing<T> {
 
    public long getEndTime() {
       return this.endTime;
+   }
+
+   public long getCreatedAt() {
+      if (createdAt > 0) return createdAt;
+      if (endTime > 0 && Gts.config != null && Gts.config.getListingDuration() > 0) {
+         return Math.max(0, endTime - Gts.config.getListingDuration() * 3600000L);
+      }
+      return 0; // Legacy perpetual listings have no known creation time.
+   }
+
+   public void setPrice(double price) {
+      // The API enforces current policy; rollback must also accept legacy zero prices.
+      org.pokesplash.gts.economy.Money.amount(price, true);
+      this.price = price;
    }
 
    public void setEndTime(long endTime) {

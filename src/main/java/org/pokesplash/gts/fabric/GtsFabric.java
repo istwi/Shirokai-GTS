@@ -17,6 +17,12 @@ import org.pokesplash.gts.util.CommandsRegistry;
 
 public class GtsFabric implements ModInitializer {
    public void onInitialize() {
+      net.fabricmc.fabric.api.message.v1.ServerMessageEvents.ALLOW_CHAT_MESSAGE.register((message, sender, params) ->
+         !org.pokesplash.gts.UI.PrivateInputs.capture(sender, message.getSignedContent()));
+      net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents.DISCONNECT.register((handler, server) -> {
+         org.pokesplash.gts.UI.PrivateInputs.cancel(handler.player.getUuid());
+         org.pokesplash.gts.UI.ListingBrowser.disconnect(handler.player.getUuid());
+      });
       ServerLifecycleEvents.SERVER_STARTING.register((ServerStarting)server -> GtsTransactions.startSession());
       ServerLifecycleEvents.SERVER_STARTED
          .register((ServerStarted)server -> ServerLifecycleEvents.SERVER_STOPPED.register((ServerStopped)stopped -> GtsTransactions.closeSession()));

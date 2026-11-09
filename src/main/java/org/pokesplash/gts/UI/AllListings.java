@@ -1,79 +1,8 @@
 package org.pokesplash.gts.UI;
-
-import ca.landonjw.gooeylibs2.api.UIManager;
-import ca.landonjw.gooeylibs2.api.button.Button;
-import ca.landonjw.gooeylibs2.api.button.GooeyButton;
-import ca.landonjw.gooeylibs2.api.button.PlaceholderButton;
-import ca.landonjw.gooeylibs2.api.helpers.PaginationHelper;
-import ca.landonjw.gooeylibs2.api.page.LinkedPage;
 import ca.landonjw.gooeylibs2.api.page.Page;
-import ca.landonjw.gooeylibs2.api.template.types.ChestTemplate;
-import java.util.ArrayList;
-import java.util.List;
-import net.minecraft.text.Text;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.component.type.LoreComponent;
-import net.minecraft.component.DataComponentTypes;
-import org.pokesplash.gts.Gts;
-import org.pokesplash.gts.Listing.Listing;
-import org.pokesplash.gts.Listing.PokemonListing;
-import org.pokesplash.gts.UI.button.Filler;
-import org.pokesplash.gts.UI.button.NextPage;
-import org.pokesplash.gts.UI.button.PreviousPage;
-import org.pokesplash.gts.UI.button.RelistAll;
-import org.pokesplash.gts.UI.button.SeeItemListings;
-import org.pokesplash.gts.UI.button.SeePokemonListings;
-import org.pokesplash.gts.UI.module.ListingInfo;
-import org.pokesplash.gts.UI.module.PokemonInfo;
-import org.pokesplash.gts.api.provider.ListingAPI;
-
+/** Compatibility entry point for integrations using the original class. */
 public class AllListings {
-   public Page getPage() {
-      PlaceholderButton placeholder = new PlaceholderButton();
-      List<Button> buttons = new ArrayList<>();
-
-      for (Listing listing : ListingAPI.getHighestPriority() == null
-         ? Gts.listings.getListings()
-         : Gts.listings.getListings().stream().map(Listing::deepClone).toList()) {
-         List<Text> lore = ListingInfo.parse(listing);
-         if (listing.isPokemon()) {
-            lore.addAll(PokemonInfo.parse((PokemonListing)listing));
-         }
-
-         Button button = GooeyButton.builder()
-            .display(listing.getIcon())
-            .with(DataComponentTypes.CUSTOM_NAME, listing.getDisplayName())
-            .with(DataComponentTypes.LORE, new LoreComponent(lore))
-            .onClick(action -> {
-               ServerPlayerEntity sender = action.getPlayer();
-               Page pagex = new SingleListing().getPage(sender, listing);
-               UIManager.openUIForcefully(sender, pagex);
-            })
-            .build();
-         buttons.add(button);
-      }
-
-      ChestTemplate template = ChestTemplate.builder(6)
-         .rectangle(0, 0, 5, 9, placeholder)
-         .fill(Filler.getButton())
-         .set(48, SeePokemonListings.getButton())
-         .set(49, org.pokesplash.gts.UI.button.ManageListings.getButton())
-         .set(50, SeeItemListings.getButton())
-         .set(53, NextPage.getButton())
-         .set(45, PreviousPage.getButton())
-         .set(52, RelistAll.getButton())
-         .build();
-      LinkedPage page = PaginationHelper.createPagesFromPlaceholders(Layouts.apply("gts", template), buttons, null);
-      page.setTitle(Layouts.title("gts", Gts.language.getTitle()));
-      this.setPageTitle(page);
-      return page;
-   }
-
-   private void setPageTitle(LinkedPage page) {
-      LinkedPage next = page.getNext();
-      if (next != null) {
-         next.setTitle(Layouts.title("gts", Gts.language.getTitle()));
-         this.setPageTitle(next);
-      }
-   }
+    public Page getPage() { return ListingBrowser.page(null); }
+    public Page getPage(ServerPlayerEntity viewer) { return ListingBrowser.page(viewer); }
 }

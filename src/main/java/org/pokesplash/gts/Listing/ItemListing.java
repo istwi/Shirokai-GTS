@@ -30,6 +30,7 @@ public class ItemListing extends Listing<ItemStack> {
       super.version = String.copyValueOf(other.getVersion().toCharArray());
       super.setEndTime(other.getEndTime());
       super.currency = other.getCurrency();
+      super.createdAt = other.getCreatedAt();
    }
 
    public ItemStack getListing() {

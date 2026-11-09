@@ -1,0 +1,12 @@
+{
+  "crates": {
+    "itemIds": [],
+    "itemTags": [],
+    "nameContains": ["caixa", "crate", "chave", "key"]
+  },
+  "specialItems": {
+    "itemIds": [],
+    "itemTags": [],
+    "nameContains": ["especial", "special", "voucher", "ticket", "passe"]
+  }
+}

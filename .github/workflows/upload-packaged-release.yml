@@ -11,10 +11,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Resolve packaged version
+        id: version
+        shell: bash
+        run: |
+          version=$(sed -n 's/^mod_version=//p' gradle.properties)
+          test -f "release-assets/GTS-Shirokai-$version.jar"
+          echo "tag=v$version" >> "$GITHUB_OUTPUT"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
       - name: Verify packaged JAR
         working-directory: release-assets
         run: sha256sum --check SHA256SUMS
-      - name: Attach locally tested version 2.7.0 to its release
+      - name: Publish the locally tested package
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release upload v2.7.0 release-assets/GTS-Shirokai-2.7.0.jar release-assets/SHA256SUMS --clobber
+          RELEASE_TAG: ${{ steps.version.outputs.tag }}
+          RELEASE_VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          if ! gh release view "$RELEASE_TAG" > /dev/null 2>&1; then
+            gh release create "$RELEASE_TAG" --target "$GITHUB_SHA" --title "Shirokai GTS $RELEASE_VERSION" --notes-file release-assets/RELEASE_NOTES.md
+          fi
+          gh release upload "$RELEASE_TAG" "release-assets/GTS-Shirokai-$RELEASE_VERSION.jar" release-assets/SHA256SUMS --clobber

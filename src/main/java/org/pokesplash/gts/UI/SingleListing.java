@@ -71,7 +71,7 @@ public class SingleListing {
          .with(DataComponentTypes.CUSTOM_NAME, ColorUtil.parse(Gts.language.getCancelPurchaseButtonLabel()))
          .onClick(action -> {
             ServerPlayerEntity sender = action.getPlayer();
-            Page page = new AllListings().getPage();
+            Page page = new AllListings().getPage(sender);
             UIManager.openUIForcefully(sender, page);
          })
          .build();
@@ -110,6 +110,8 @@ public class SingleListing {
       Builder template = ChestTemplate.builder(3).fill(Filler.getButton()).set(13, pokemon).set(15, cancel);
       if (viewer.getUuid().equals(listing.getSellerUuid())) {
          template.set(11, removeListing);
+         template.set(20, ListingBrowser.button(net.minecraft.item.Items.NAME_TAG, "<yellow>Editar preço", java.util.List.of("<gray>Escolha e confirme um novo preço."),
+            action -> PriceEditor.open(action.getPlayer(), listing)));
       } else {
          template.set(11, purchase);
       }

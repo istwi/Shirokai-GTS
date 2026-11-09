@@ -18,7 +18,7 @@ public abstract class RelistAll {
          .onClick(action -> {
             ServerPlayerEntity sender = action.getPlayer();
             Gts.listings.relistAllExpiredListings(sender.getUuid());
-            Page page = new AllListings().getPage();
+            Page page = new AllListings().getPage(action.getPlayer());
             UIManager.openUIForcefully(sender, page);
          })
          .build();
