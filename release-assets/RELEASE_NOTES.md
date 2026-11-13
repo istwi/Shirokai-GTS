@@ -1,17 +1,10 @@
-## Anúncios antigos após reinício
+Correções baseadas na v2.8.3:
 
-A retirada agora distingue anúncio fora da lista, inventário sem espaço e transação retida. Inclui diagnóstico e recuperação administrativa de **criações concluídas compatíveis**, com backup dos recibos e sem liberar compras/devoluções incertas.
+- Menus de itens, histórico e expirados com grade de 28 espaços e borda cinza; Pokémon e busca seguem o mesmo padrão.
+- Migração dos layouts antigos com backup, preservando grades personalizadas.
+- Tab sugere apenas /gts; subcomandos continuam funcionando quando digitados manualmente, com as mesmas permissões.
+- Lore de Pokémon organizada em blocos: natureza e habilidade, IVs em duas linhas e total /186, movimentos, Ball/Tera/amizade, preço verde, vendedor e tempo restante compacto.
 
-Depois de instalar, como administrador (permissão `gts.admin.recover`, OP 4) ou pelo console:
+Validação: build e 49 testes passaram. Aparência ainda precisa ser conferida no jogo.
 
-1. `/gts recuperar` — consultar o diagnóstico.
-2. `/gts recuperar confirmar` — liberar somente os registros compatíveis mostrados pelo diagnóstico.
-3. Abrir Meu GTS e retirar o item normalmente.
-
-No console, use os comandos sem a barra. Casos marcados como "exige análise" continuam protegidos. Guia: https://github.com/istwi/Shirokai-GTS/blob/main/docs/RECOVERY.md
-
-## Expirados em Meu GTS
-
-Anúncios ativos e expirados aparecem na mesma grade. Os expirados recebem `[EXPIRADO]` e podem ser retirados pelo baú à direita, sem edição de preço. A barra inferior continua com apenas a seta de voltar.
-
-Minecraft 1.21.1 / Java 21 / Fabric / Cobblemon 1.8.3 / Impactor 5.3.5.
+Instalação: com o servidor parado, substitua o JAR antigo pelo GTS-Shirokai-2.8.4.jar. Minecraft 1.21.1 / Java 21 / Fabric / Cobblemon 1.8.3 / Impactor 5.3.5.
