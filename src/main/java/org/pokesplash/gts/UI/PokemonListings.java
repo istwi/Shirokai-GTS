@@ -73,7 +73,7 @@ public class PokemonListings {
 
       for (PokemonListing listing : pkmListings) {
          List<Text> lore = ListingInfo.parse(listing);
-         lore.addAll(PokemonInfo.parse(listing));
+            if (listing.isPokemon()) lore.add(Text.literal("Clique para ver o anúncio").formatted(net.minecraft.util.Formatting.YELLOW));
          Button button = GooeyButton.builder()
             .display(PokemonItem.from(listing.getListing(), 1))
             .with(DataComponentTypes.CUSTOM_NAME, listing.getDisplayName())

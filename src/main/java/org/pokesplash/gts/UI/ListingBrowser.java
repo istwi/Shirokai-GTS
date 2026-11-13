@@ -68,7 +68,7 @@ public final class ListingBrowser {
         for (Row row : rows) {
             Listing listing = row.listing();
             List<Text> lore = ListingInfo.parse(listing);
-            if (listing instanceof PokemonListing pokemon) lore.addAll(PokemonInfo.parse(pokemon));
+            if (listing.isPokemon()) lore.add(Text.literal("Clique para ver o anúncio").formatted(net.minecraft.util.Formatting.YELLOW));
             listings.add(GooeyButton.builder().display(listing.getIcon()).with(DataComponentTypes.CUSTOM_NAME, listing.getDisplayName())
                     .with(DataComponentTypes.LORE, new LoreComponent(lore))
                     .onClick(a -> UIManager.openUIForcefully(a.getPlayer(), new SingleListing().getPage(a.getPlayer(), listing))).build());

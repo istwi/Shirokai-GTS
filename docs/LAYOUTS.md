@@ -72,7 +72,7 @@ Este arquivo parcial é válido e preserva os outros menus:
 
 ```json
 {
-  "version": 3,
+  "version": 4,
   "menus": {
     "sell_confirm": {
       "rows": 4,
@@ -122,3 +122,5 @@ Mantenha a estrutura restante de `config.json`. Isso altera a apresentação de 
 JSON inválido, linhas fora de 1–6, espaços repetidos ou fora da tela, identificadores desconhecidos de menus/botões e itens inexistentes são rejeitados. O `/gts reload` informa o erro; o servidor conserva os últimos layouts válidos. Na primeira inicialização, conserva os padrões. O arquivo com erro não é sobrescrito.
 
 Depois de uma alteração, confira voltar/trocar moeda, cancelar, confirmar, navegar entre páginas e as permissões de vendedor/administrador. As configurações só mudam a interface: preços, saldos, permissões e validações de transação continuam sob as regras do mod.
+
+Os menus de itens, Pokémon, expirados, histórico e busca usam 28 espaços de conteúdo com borda de vidro cinza. Arquivos das versões 1–3 são migrados com backup `layouts.json.v<versão>.backup`: a grade antiga de 45 espaços é atualizada, preservando títulos, botões e grades personalizadas.

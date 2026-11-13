@@ -1,6 +1,6 @@
 # Shirokai GTS
 
-Sistema de comércio de Pokémon e itens entre jogadores para **Minecraft 1.21.1 / Fabric / Cobblemon**. Projeto reconstruído a partir do mod Shirokai 2.6.2, com fontes editáveis, compilação completa e menus configuráveis na versão **2.8.3**.
+Sistema de comércio de Pokémon e itens entre jogadores para **Minecraft 1.21.1 / Fabric / Cobblemon**. Projeto reconstruído a partir do mod Shirokai 2.6.2, com fontes editáveis, compilação completa e menus configuráveis na versão **2.8.4**.
 
 [![Build and test](https://github.com/istwi/Shirokai-GTS/actions/workflows/build.yml/badge.svg)](https://github.com/istwi/Shirokai-GTS/actions/workflows/build.yml)
 
@@ -44,7 +44,7 @@ No Windows:
 gradlew.bat build
 ```
 
-O Gradle Wrapper baixa o Gradle com verificação SHA-256. O build compila todas as fontes atuais, executa os testes e gera o mod distribuível em **`build/libs/GTS-Shirokai-2.8.3.jar`**. O arquivo com sufixo `-sources.jar` contém as fontes e não deve ser instalado como mod.
+O Gradle Wrapper baixa o Gradle com verificação SHA-256. O build compila todas as fontes atuais, executa os testes e gera o mod distribuível em **`build/libs/GTS-Shirokai-2.8.4.jar`**. O arquivo com sufixo `-sources.jar` contém as fontes e não deve ser instalado como mod.
 
 A primeira compilação baixa Minecraft, mappings e dependências. O desenvolvimento usa Yarn `1.21.1+build.3` e Fabric Loom; não é necessário aplicar o hotfix antigo no binário para gerar a versão atual.
 
@@ -71,6 +71,8 @@ Configurações:
 - `config/gts/layouts.json`: aparência e organização dos menus.
 
 Os dados existentes continuam sob as regras do mod recuperado; a atualização não solicita apagar anúncios, histórico nem saldos. Valide uma cópia do servidor antes de substituir sua instalação principal.
+
+O autocomplete do Tab mostra apenas `/gts`. Os subcomandos abaixo continuam disponíveis ao digitar o comando completo.
 
 ## Comandos principais
 

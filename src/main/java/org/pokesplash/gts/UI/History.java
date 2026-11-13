@@ -53,7 +53,8 @@ public class History {
             Button button = null;
             if (item.isPokemon()) {
                PokemonHistoryItem pokemonItem = (PokemonHistoryItem)item;
-               lore.addAll(PokemonInfo.parse(pokemonItem.getListing()));
+               lore.addAll(0, PokemonInfo.parse(pokemonItem.getListing()));
+               lore.add(PokemonInfo.separator());
                button = GooeyButton.builder()
                   .display(PokemonItem.from(pokemonItem.getListing(), 1))
                   .with(DataComponentTypes.CUSTOM_NAME, pokemonItem.getDisplayName())

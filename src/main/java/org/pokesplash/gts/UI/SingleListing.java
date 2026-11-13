@@ -32,9 +32,6 @@ public class SingleListing {
       if (expired && !viewer.getUuid().equals(listing.getSellerUuid())) throw new IllegalArgumentException("Somente o dono pode retirar um anúncio expirado.");
       List<Text> lore = ListingInfo.parse(listing);
       if (expired) lore.add(0, ColorUtil.parse("<red><bold>ANÚNCIO EXPIRADO</bold></red>"));
-      if (listing.isPokemon()) {
-         lore.addAll(PokemonInfo.parse((PokemonListing)listing));
-      }
 
       Button pokemon = GooeyButton.builder()
          .display(listing.getIcon())

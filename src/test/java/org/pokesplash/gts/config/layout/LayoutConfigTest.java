@@ -9,6 +9,50 @@ import org.junit.jupiter.api.io.TempDir;
 class LayoutConfigTest {
     @TempDir Path directory;
 
+    @Test void listMenusUseBorderedGrid() {
+        var config = LayoutConfig.defaults();
+        for (String id : List.of("items", "pokemon", "expired", "history", "search")) {
+            var menu = config.menus.get(id);
+            assertEquals(config.menus.get("gts").contentSlots, menu.contentSlots);
+            assertEquals("minecraft:gray_stained_glass_pane", menu.filler.item);
+            assertTrue(menu.contentSlots.stream().noneMatch(slot -> slot < 9 || slot >= 45 || slot % 9 == 0 || slot % 9 == 8));
+        }
+        assertDoesNotThrow(config::validate);
+    }
+
+    @Test void migratesLegacyListsWithBackupButKeepsCustomSlotsAndVisuals() throws Exception {
+        Path file = directory.resolve("layouts.json");
+        var json = new com.google.gson.Gson().toJsonTree(LayoutConfig.defaults()).getAsJsonObject();
+        json.addProperty("version", 3);
+        var menus = json.getAsJsonObject("menus");
+        for (String id : List.of("history", "items", "expired")) {
+            var menu = menus.getAsJsonObject(id);
+            var slots = new com.google.gson.JsonArray();
+            for (int i = 0; i < 45; i++) slots.add(i);
+            menu.add("contentSlots", slots);
+            menu.add("filler", new com.google.gson.JsonObject());
+        }
+        var history = menus.getAsJsonObject("history");
+        history.addProperty("title", "Minhas compras");
+        var custom = new com.google.gson.JsonArray();
+        custom.add(20);
+        history.add("contentSlots", custom);
+        history.getAsJsonObject("filler").addProperty("item", "minecraft:diamond");
+        String original = json.toString();
+        Files.writeString(file, original);
+        var config = LayoutManager.load(file);
+        assertEquals(4, config.version);
+        assertEquals(28, config.menus.get("items").contentSlots.size());
+        assertEquals(28, config.menus.get("expired").contentSlots.size());
+        assertEquals(List.of(20), config.menus.get("history").contentSlots);
+        assertEquals("Minhas compras", config.menus.get("history").title);
+        assertEquals("minecraft:diamond", config.menus.get("history").filler.item);
+        assertEquals(original, Files.readString(directory.resolve("layouts.json.v3.backup")));
+        String migrated = Files.readString(file);
+        LayoutManager.load(file);
+        assertEquals(migrated, Files.readString(file));
+    }
+
     @Test void defaultsCoverEveryMenuAndValidate() {
         LayoutConfig c = LayoutConfig.defaults();
         assertEquals(15, c.menus.size());
@@ -60,7 +104,7 @@ class LayoutConfigTest {
 
     @Test void missingSectionsUseDefaultsWithoutRewritingFile() throws Exception {
         Path file = directory.resolve("layouts.json");
-        String partial = "{\"version\":3,\"menus\":{\"sell_confirm\":{\"title\":\"Confirmar\"}}}";
+        String partial = "{\"version\":4,\"menus\":{\"sell_confirm\":{\"title\":\"Confirmar\"}}}";
         Files.writeString(file, partial);
         LayoutConfig c = LayoutManager.load(file);
         assertEquals("Confirmar", c.menus.get("sell_confirm").title);
@@ -88,7 +132,7 @@ class LayoutConfigTest {
         String old = "{\"version\":1,\"menus\":{\"gts\":{\"title\":\"Meu GTS\",\"buttons\":{\"pokemon\":{\"slot\":48}}},\"sell_confirm\":{\"title\":\"Minha venda\"}}}";
         Files.writeString(file, old);
         var config = LayoutManager.load(file);
-        assertEquals(3, config.version);
+        assertEquals(4, config.version);
         assertEquals(28, config.menus.get("gts").contentSlots.size());
         assertEquals(46, config.menus.get("gts").buttons.get("category_filter").slot);
         assertEquals("Meu GTS", config.menus.get("gts").title);
@@ -117,7 +161,7 @@ class LayoutConfigTest {
         String old = "{\"version\":2,\"menus\":{\"manage\":{\"title\":\"Minha loja\",\"buttons\":{\"pokemon\":{\"slot\":48},\"create\":{\"slot\":47}}},\"listing\":{\"buttons\":{\"edit_price\":{\"slot\":20},\"primary\":{\"slot\":12}}}}}";
         Files.writeString(file, old);
         var c = LayoutManager.load(file);
-        assertEquals(3, c.version);
+        assertEquals(4, c.version);
         assertEquals(Set.of("back"), c.menus.get("manage").buttons.keySet());
         assertEquals("Minha loja", c.menus.get("manage").title);
         assertEquals(12, c.menus.get("listing").buttons.get("primary").slot);

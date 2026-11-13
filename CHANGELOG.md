@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.8.4
+
+- Lore dos Pokémon em blocos com separadores: natureza/habilidade, IVs totais e duas linhas de atributos, movimentos, Ball/Tera/amizade e dados da venda.
+
+- Menus de itens, Pokémon, expirados, histórico e busca com grade de 28 espaços e borda cinza, consistente com o navegador atual.
+- Layouts versão 4: migração da grade antiga com backup, preservando grades personalizadas, títulos e botões.
+- Tab sugere apenas `/gts`; subcomandos continuam funcionando quando digitados manualmente, com as mesmas permissões.
+
 ## 2.8.3
 
 - Retirada informa a causa: anúncio fora da lista, inventário sem espaço ou fase de transação retida.

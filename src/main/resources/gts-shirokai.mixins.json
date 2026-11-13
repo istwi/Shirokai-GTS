@@ -4,7 +4,8 @@
   "refmap": "GTS-Shirokai-refmap.json",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "PlayerListAccessor"
+    "PlayerListAccessor",
+    "CommandManagerMixin"
   ],
   "injectors": {
     "defaultRequire": 1

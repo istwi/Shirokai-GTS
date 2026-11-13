@@ -39,9 +39,7 @@ public class FilteredListings {
          if (listing.getListingName().toLowerCase(Locale.ROOT).contains(searchValue.toLowerCase(Locale.ROOT))
             || listing.getSellerName().toLowerCase(Locale.ROOT).contains(searchValue.toLowerCase(Locale.ROOT))) {
             List<Text> lore = ListingInfo.parse(listing);
-            if (listing.isPokemon()) {
-               lore.addAll(PokemonInfo.parse((PokemonListing)listing));
-            }
+            if (listing.isPokemon()) lore.add(Text.literal("Clique para ver o anúncio").formatted(net.minecraft.util.Formatting.YELLOW));
 
             Button button = GooeyButton.builder()
                .display(listing.getIcon())

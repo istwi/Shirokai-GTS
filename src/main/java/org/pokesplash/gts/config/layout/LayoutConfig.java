@@ -4,7 +4,7 @@ import java.util.*;
 
 /** Serializable menu settings. Slots are zero-based, left to right. */
 public final class LayoutConfig {
-    public int version = 3;
+    public int version = 4;
     public Map<String, Menu> menus = new LinkedHashMap<>();
 
     public static final class Visual {
@@ -64,7 +64,10 @@ public final class LayoutConfig {
 
     private void list(String id, Object... buttons) {
         menu(id, 6, buttons);
-        for (int i = 0; i < 45; i++) menus.get(id).contentSlots.add(i);
+        Menu menu = menus.get(id);
+        menu.filler.item = "minecraft:gray_stained_glass_pane";
+        menu.filler.name = " ";
+        for (int row = 1; row <= 4; row++) for (int col = 1; col <= 7; col++) menu.contentSlots.add(row * 9 + col);
     }
 
     private void menu(String id, int rows, Object... buttons) {
@@ -75,7 +78,7 @@ public final class LayoutConfig {
     }
 
     public void validate() {
-        if (version != 3) throw new IllegalArgumentException("Unsupported layouts version: " + version);
+        if (version != 4) throw new IllegalArgumentException("Unsupported layouts version: " + version);
         LayoutConfig defaults = defaults();
         if (menus == null || !menus.keySet().equals(defaults.menus.keySet())) throw new IllegalArgumentException("Unknown or missing menu id");
         for (var entry : menus.entrySet()) {

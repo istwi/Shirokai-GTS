@@ -35,9 +35,6 @@ public class ExpiredListings {
       if (listings != null) {
          for (Listing listing : listings) {
             List<Text> lore = new ArrayList<>(ListingInfo.parse(listing));
-            if (listing.isPokemon()) {
-               lore.addAll(PokemonInfo.parse((PokemonListing)listing));
-            }
 
             Button button = GooeyButton.builder()
                .display(listing.getIcon())

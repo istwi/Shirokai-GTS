@@ -40,10 +40,6 @@ public class ManageListings {
                   lore.add(0, org.pokesplash.gts.util.ColorUtil.parse("<red><bold>ANÚNCIO EXPIRADO</bold></red>"));
                   lore.add(org.pokesplash.gts.util.ColorUtil.parse("<yellow>Clique para retirar seu item ou Pokémon."));
                }
-               if (listing.isPokemon()) {
-                  PokemonListing pokemonListing = (PokemonListing)listing;
-                  lore.addAll(PokemonInfo.parse(pokemonListing.getListing()));
-               }
 
                Button button = GooeyButton.builder()
                   .display(listing.getIcon())

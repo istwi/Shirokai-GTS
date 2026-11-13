@@ -1,27 +1,37 @@
 package org.pokesplash.gts.UI.module;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.text.Text;
-import net.minecraft.text.Style;
 import net.minecraft.item.Item.TooltipContext;
 import org.pokesplash.gts.Gts;
 import org.pokesplash.gts.Listing.ItemListing;
 import org.pokesplash.gts.Listing.Listing;
+import org.pokesplash.gts.Listing.PokemonListing;
 import org.pokesplash.gts.util.ColorUtil;
 import org.pokesplash.gts.util.Utils;
 
 public abstract class ListingInfo {
    public static List<Text> parse(Listing listing) {
       List<Text> lore = new ArrayList<>();
-      Style base = Style.EMPTY.withItalic(false);
-      lore.add(ColorUtil.parse(Gts.language.getSeller() + listing.getSellerName()));
-      lore.add(ColorUtil.parse(Gts.language.getPrice() + Gts.config.getMultiCurrency().colored(listing.getCurrency(), listing.getPrice())));
-      if (listing.getEndTime() != -1L && listing.getEndTime() > new Date().getTime()) {
-         lore.add(ColorUtil.parse(Gts.language.getRemainingTime() + Utils.parseLongDate(listing.getEndTime() - new Date().getTime())));
+      boolean pokemon = listing instanceof PokemonListing;
+      String price = Gts.config.getMultiCurrency().colored(listing.getCurrency(), listing.getPrice());
+      if (pokemon) {
+         lore.addAll(PokemonInfo.parse((PokemonListing) listing));
+         lore.add(tradeLine(Gts.language.getPrice(), ColorUtil.parse(price).getString(), net.minecraft.util.Formatting.GREEN));
+         lore.add(tradeLine(Gts.language.getSeller(), listing.getSellerName(), net.minecraft.util.Formatting.WHITE));
+      } else {
+         lore.add(ColorUtil.parse(Gts.language.getSeller() + listing.getSellerName()));
+         lore.add(ColorUtil.parse(Gts.language.getPrice() + price));
       }
+      long remaining = listing.getEndTime() - System.currentTimeMillis();
+      if (listing.getEndTime() != -1L && remaining > 0) {
+         lore.add(pokemon
+            ? tradeLine(Gts.language.getRemainingTime(), compactDuration(remaining), net.minecraft.util.Formatting.WHITE)
+            : ColorUtil.parse(Gts.language.getRemainingTime() + Utils.parseLongDate(remaining)));
+      }
+      if (pokemon) lore.add(PokemonInfo.separator());
 
       if (!listing.isPokemon()) {
          ItemListing itemListing = (ItemListing)listing;
@@ -45,5 +55,19 @@ public abstract class ListingInfo {
       }
 
       return lore;
+   }
+
+   private static Text tradeLine(String label, String value, net.minecraft.util.Formatting color) {
+      return Text.literal(ColorUtil.parse(label).getString())
+         .styled(style -> style.withColor(net.minecraft.util.Formatting.GRAY).withItalic(false))
+         .append(Text.literal(value).formatted(color));
+   }
+
+   static String compactDuration(long millis) {
+      long seconds = Math.max(0, millis / 1000);
+      long days = seconds / 86400, hours = seconds / 3600 % 24, minutes = seconds / 60 % 60;
+      if (days > 0) return days + "d " + hours + "h " + minutes + "m";
+      if (hours > 0) return hours + "h " + minutes + "m";
+      return minutes > 0 ? minutes + "m" : seconds + "s";
    }
 }

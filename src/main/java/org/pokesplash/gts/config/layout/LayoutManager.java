@@ -22,8 +22,8 @@ public final class LayoutManager {
         if (!parsed.isJsonObject()) throw new IllegalArgumentException("layouts.json must be an object");
         JsonObject json = parsed.getAsJsonObject();
         int oldVersion = json.has("version") ? json.get("version").getAsInt() : 1;
-        boolean migrate = oldVersion == 1 || oldVersion == 2;
-        if (migrate) {
+        boolean migrate = oldVersion >= 1 && oldVersion <= 3;
+        if (oldVersion == 1 || oldVersion == 2) {
             JsonObject menus = json.has("menus") && json.get("menus").isJsonObject() ? json.getAsJsonObject("menus") : null;
             if (oldVersion == 1 && menus != null && menus.has("gts") && menus.get("gts").isJsonObject()) {
                 JsonObject old = menus.getAsJsonObject("gts");
@@ -50,6 +50,10 @@ public final class LayoutManager {
             }
             json.addProperty("version", 3);
         }
+        if (migrate) {
+            migrateListGrids(json, defaults);
+            json.addProperty("version", 4);
+        }
         mergeMissing(json, defaults);
         LayoutConfig config = GSON.fromJson(json, LayoutConfig.class);
         config.validate();
@@ -59,6 +63,26 @@ public final class LayoutManager {
             AtomicFiles.write(file, GSON.toJson(json) + "\n");
         }
         return config;
+    }
+
+    // Upgrade only the old full-width grid. Explicit custom slot arrangements survive.
+    private static void migrateListGrids(JsonObject json, JsonObject defaults) {
+        if (!json.has("menus") || !json.get("menus").isJsonObject()) return;
+        JsonObject menus = json.getAsJsonObject("menus");
+        JsonArray oldSlots = new JsonArray();
+        for (int slot = 0; slot < 45; slot++) oldSlots.add(slot);
+        for (String id : java.util.List.of("items", "pokemon", "expired", "history", "search")) {
+            if (!menus.has(id) || !menus.get(id).isJsonObject()) continue;
+            JsonObject menu = menus.getAsJsonObject(id);
+            JsonObject baseline = defaults.getAsJsonObject("menus").getAsJsonObject(id);
+            if (oldSlots.equals(menu.get("contentSlots"))) {
+                menu.add("contentSlots", baseline.get("contentSlots").deepCopy());
+            }
+            if (!menu.has("filler") || (menu.get("filler").isJsonObject()
+                    && menu.getAsJsonObject("filler").entrySet().stream().allMatch(e -> e.getValue().isJsonNull()))) {
+                menu.add("filler", baseline.get("filler").deepCopy());
+            }
+        }
     }
 
     private static void mergeMissing(JsonObject target, JsonObject defaults) {

@@ -25,12 +25,7 @@ import org.pokesplash.gts.util.Utils;
 
 public class ExpiredListing {
    public Page getPage(Listing listing) {
-      List<Text> lore = new ArrayList<>();
-      lore.add(ColorUtil.parse(Gts.language.getSeller() + listing.getSellerName()));
-      lore.add(ColorUtil.parse(Gts.language.getPrice() + Gts.config.getMultiCurrency().colored(listing.getCurrency(), listing.getPrice())));
-      if (listing.isPokemon()) {
-         lore.addAll(PokemonInfo.parse((PokemonListing)listing));
-      }
+      List<Text> lore = org.pokesplash.gts.UI.module.ListingInfo.parse(listing);
 
       Button listingDisplay = GooeyButton.builder()
          .display(listing.getIcon())
