@@ -47,15 +47,15 @@ public abstract class PokemonInfo {
 
    static List<Text> ivLines(com.cobblemon.mod.common.pokemon.IVs ivs) {
       Stats[] stats = {Stats.HP, Stats.ATTACK, Stats.DEFENCE, Stats.SPECIAL_ATTACK, Stats.SPECIAL_DEFENCE, Stats.SPEED};
-      String[] names = {"HP", "ATK", "DEF", "SPA", "SPD", "SPE"};
+      String[] names = {"HP", "Attack", "Defense", "Special Attack", "Special Defense", "Speed"};
       int total = 0;
       for (Stats stat : stats) total += ivs.get(stat) == null ? 0 : ivs.get(stat);
       List<Text> lines = new ArrayList<>();
       lines.add(line("IVs (" + total + "/186)", Formatting.GRAY));
-      for (int row = 0; row < 2; row++) {
+      for (int row = 0; row < 3; row++) {
          MutableText line = line("  ", Formatting.GRAY);
-         for (int col = 0; col < 3; col++) {
-            int index = row * 3 + col;
+         for (int col = 0; col < 2; col++) {
+            int index = row * 2 + col;
             int value = ivs.get(stats[index]) == null ? 0 : ivs.get(stats[index]);
             if (col > 0) line.append("  ");
             line.append(line(names[index] + " ", Formatting.DARK_GRAY));

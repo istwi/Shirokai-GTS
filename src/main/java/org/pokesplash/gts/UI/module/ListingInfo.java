@@ -19,7 +19,7 @@ public abstract class ListingInfo {
       String price = Gts.config.getMultiCurrency().colored(listing.getCurrency(), listing.getPrice());
       if (pokemon) {
          lore.addAll(PokemonInfo.parse((PokemonListing) listing));
-         lore.add(tradeLine(Gts.language.getPrice(), ColorUtil.parse(price).getString(), net.minecraft.util.Formatting.GREEN));
+         lore.add(priceLine(ColorUtil.parse(Gts.language.getPrice()), ColorUtil.parse(price)));
          lore.add(tradeLine(Gts.language.getSeller(), listing.getSellerName(), net.minecraft.util.Formatting.WHITE));
       } else {
          lore.add(ColorUtil.parse(Gts.language.getSeller() + listing.getSellerName()));
@@ -55,6 +55,13 @@ public abstract class ListingInfo {
       }
 
       return lore;
+   }
+
+   // Preserve the configured currency colors instead of flattening all prices to green.
+   static Text priceLine(Text label, Text value) {
+      return Text.literal(label.getString())
+         .styled(style -> style.withColor(net.minecraft.util.Formatting.GRAY).withItalic(false))
+         .append(value.copy());
    }
 
    private static Text tradeLine(String label, String value, net.minecraft.util.Formatting color) {

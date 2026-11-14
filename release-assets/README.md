@@ -1,7 +1,7 @@
-# Pacote atual: 2.8.4
+# Pacote atual: 2.8.5
 
-Layouts com borda cinza, subcomandos ocultos do Tab e nova lore de Pokémon.
+Dollar verde, Tokens roxo/rosa e IVs em três linhas de dois atributos com nomes completos.
 
-Compilação e 49 testes aprovados. Conferência visual no jogo pendente.
+Build e 50 testes aprovados. Conferência visual no jogo pendente.
 
-O workflow **Upload tested release JAR** confere `SHA256SUMS` e publica o JAR testado da versão de `gradle.properties`. Pacotes anteriores permanecem como referência histórica.
+O workflow **Upload tested release JAR** verifica SHA256SUMS e publica o pacote testado.

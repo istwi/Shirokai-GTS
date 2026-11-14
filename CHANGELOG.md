@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.8.5
+
+- Preço dos Pokémon preserva a cor da moeda: Dollar verde e Tokens roxo/rosa por padrão.
+- IVs em três linhas de dois atributos, com nomes completos: HP/Attack, Defense/Special Attack, Special Defense/Speed. Total e destaque verde para IVs 31 preservados.
+
 ## 2.8.4
 
 - Lore dos Pokémon em blocos com separadores: natureza/habilidade, IVs totais e duas linhas de atributos, movimentos, Ball/Tera/amizade e dados da venda.
