@@ -1,7 +1,12 @@
-# Pacote atual: 2.8.5
+# Pacote atual: 2.8.6
 
-Dollar verde, Tokens roxo/rosa e IVs em três linhas de dois atributos com nomes completos.
+Correção da confirmação com preço desatualizado e preservação do anúncio em falha de retirada.
 
-Build e 50 testes aprovados. Conferência visual no jogo pendente.
+- `GTS-Shirokai-2.8.6.jar`: marca original.
+- `GTS-Zorykai-2.8.6.jar`: mesma lógica e IDs, com a variante visual Zorykai preservada.
 
-O workflow **Upload tested release JAR** verifica SHA256SUMS e publica o pacote testado.
+Instale somente uma variante e remova o JAR antigo com o servidor parado. As configurações continuam em `config/gts`.
+
+53 testes JUnit e 77 verificações em servidor isolado com jogadores simulados. [Evidências e limites](../docs/STALE_PRICE_FIX.md). Não há recuperação automática de perdas antigas.
+
+O workflow **Upload tested release JAR** verifica SHA256SUMS e publica o pacote Shirokai testado. Este hotfix foi preparado numa branch separada, sem criar tag ou alterar uma release existente.

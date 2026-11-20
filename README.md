@@ -1,8 +1,14 @@
 # Shirokai GTS
 
-Sistema de comércio de Pokémon e itens entre jogadores para **Minecraft 1.21.1 / Fabric / Cobblemon**. Projeto reconstruído a partir do mod Shirokai 2.6.2, com fontes editáveis, compilação completa e menus configuráveis na versão **2.8.5**.
+Sistema de comércio de Pokémon e itens entre jogadores para **Minecraft 1.21.1 / Fabric / Cobblemon**. Projeto reconstruído a partir do mod Shirokai 2.6.2, com fontes editáveis, compilação completa e menus configuráveis na versão **2.8.6**.
 
 [![Build and test](https://github.com/istwi/Shirokai-GTS/actions/workflows/build.yml/badge.svg)](https://github.com/istwi/Shirokai-GTS/actions/workflows/build.yml)
+
+## Correção 2.8.6: preço alterado e retirada
+
+Uma confirmação com preço antigo agora pede nova confirmação do valor atualizado, sem cobrar ou bloquear o anúncio. A retirada preserva a entrada e o arquivo do anúncio até concluir a devolução; se a entrega falhar, mantém os dados protegidos para conferência administrativa.
+
+Build e 53 testes automatizados aprovados, além de 77 verificações num servidor Fabric 1.21.1 com Cobblemon 1.8.3 e Impactor 5.3.5, usando jogadores simulados e os callbacks dos menus. [Diagnóstico, evidências e limitações](docs/STALE_PRICE_FIX.md). A mensagem específica relatada no servidor do usuário ainda requer seu log para confirmar a causa completa. A atualização não restaura automaticamente anúncios perdidos anteriormente.
 
 ## Novo navegador 2.8.3
 
@@ -44,7 +50,7 @@ No Windows:
 gradlew.bat build
 ```
 
-O Gradle Wrapper baixa o Gradle com verificação SHA-256. O build compila todas as fontes atuais, executa os testes e gera o mod distribuível em **`build/libs/GTS-Shirokai-2.8.5.jar`**. O arquivo com sufixo `-sources.jar` contém as fontes e não deve ser instalado como mod.
+O Gradle Wrapper baixa o Gradle com verificação SHA-256. O build compila todas as fontes atuais, executa os testes e gera o mod distribuível em **`build/libs/GTS-Shirokai-2.8.6.jar`**. O arquivo com sufixo `-sources.jar` contém as fontes e não deve ser instalado como mod.
 
 A primeira compilação baixa Minecraft, mappings e dependências. O desenvolvimento usa Yarn `1.21.1+build.3` e Fabric Loom; não é necessário aplicar o hotfix antigo no binário para gerar a versão atual.
 

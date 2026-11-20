@@ -1,0 +1,1 @@
+{"schemaVersion":1,"id":"gts_checks","version":"1","name":"GTS isolated regression checks","environment":"server","entrypoints":{"main":["org.pokesplash.gts.checks.StalePriceChecks"]},"depends":{"gts":"*"}}

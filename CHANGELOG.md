@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.8.6
+
+- Confirmação de compra guarda a oferta exibida e rejeita preço/moeda/vendedor divergentes antes da transação; o menu reabre com o valor atualizado.
+- Retirada mantém anúncio e arquivo até completar a devolução, preservando-os em falha de entrega.
+- Pré-validação do bem antes da retirada, exclusão com verificação real de erro e stack traces completos nas falhas de transação.
+- Testes de regressão de validação sem efeitos financeiros, callbacks dos menus, edição/retirada após tentativa antiga e preservação em falha de entrega. Diagnóstico e limites em `docs/STALE_PRICE_FIX.md`.
+- Opções locais `cobblemonJar`/`impactorJar` para compilar com JARs oficiais quando o snapshot Maven não estiver disponível.
+
 ## 2.8.5
 
 - Preço dos Pokémon preserva a cor da moeda: Dollar verde e Tokens roxo/rosa por padrão.

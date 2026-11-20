@@ -1,0 +1,32 @@
+{
+  "version": "2.8.6",
+  "junit": {
+    "tests": 53,
+    "failures": 0,
+    "errors": 0
+  },
+  "dependencies": {
+    "cobblemon-1.8.3": "a977e741eec047ebc50559812be9b3296c9090254a632006f1c8b10ed1f7f40c",
+    "impactor-5.3.5": "02312d1b101e67f9d2a0476ad6aafabb0b4cabab787f85ecf871ffce8d59f8a9",
+    "fabric-api": "cc531256ecce945b65b179bcedc45ca40b69d7364b95448d255270bb6fccaac8"
+  },
+  "artifacts": {
+    "GTS-Shirokai-2.8.6.jar": "2dbb3b0cfd3a6b08197293d96c0e226e1ac91554f37dbfe8b661625dd54cf797",
+    "GTS-Zorykai-2.8.6.jar": "28aebdc15754fa389d669419c8be825048047bb8bf38b243ed13df728583767b"
+  },
+  "test_players": "Simulated server players; no native client GUI or Windows validation",
+  "integration": {
+    "baseline-2.8.5.json": {
+      "checks": 77,
+      "passed": 33,
+      "failed": 44
+    },
+    "fixed-2.8.6.json": {
+      "checks": 77,
+      "passed": 77,
+      "failed": 0
+    }
+  },
+  "baselineJarSHA256": "505e064012ce052d0c9310f952ff3c38cbe9775300b1c7640cba930264dcfa88",
+  "checksJarSHA256": "383d62ae914ec79964c1d1eae34184729393008d3f10c587159d1142803a84ed"
+}

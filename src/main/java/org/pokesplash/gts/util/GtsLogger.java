@@ -14,6 +14,10 @@ public class GtsLogger {
       this.logger.error(message);
    }
 
+   public void error(String message, Throwable error) {
+      this.logger.error(message, error);
+   }
+
    public void fatal(String message) {
       this.logger.fatal(message);
    }

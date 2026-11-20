@@ -1,0 +1,310 @@
+[
+  {
+    "name": "item 9000 actual API listing creation",
+    "passed": true
+  },
+  {
+    "name": "item 9000 creation not held",
+    "passed": true
+  },
+  {
+    "name": "item 9000 edited price saved",
+    "passed": true
+  },
+  {
+    "name": "item 9000 stale purchase rejected",
+    "passed": true
+  },
+  {
+    "name": "item 9000 stale attempt leaves buyer funds",
+    "passed": true
+  },
+  {
+    "name": "item 9000 stale attempt leaves listing",
+    "passed": true
+  },
+  {
+    "name": "item 9000 stale attempt leaves journal",
+    "passed": true
+  },
+  {
+    "name": "item 9000 stale menu callback leaves funds",
+    "passed": true
+  },
+  {
+    "name": "item 9000 stale menu callback leaves listing",
+    "passed": true
+  },
+  {
+    "name": "item 9000 stale menu callback leaves journal",
+    "passed": true
+  },
+  {
+    "name": "item 9000 stale attempt leaves seller able to edit",
+    "passed": true
+  },
+  {
+    "name": "item 9000 seller can withdraw",
+    "passed": true
+  },
+  {
+    "name": "item 9000 exactly original asset returned",
+    "passed": true
+  },
+  {
+    "name": "item 9000 repeated withdraw cannot duplicate",
+    "passed": true
+  },
+  {
+    "name": "item 9000 completed operation removes escrow file",
+    "passed": true
+  },
+  {
+    "name": "pokemon 9000 actual API listing creation",
+    "passed": true
+  },
+  {
+    "name": "pokemon 9000 creation not held",
+    "passed": true
+  },
+  {
+    "name": "pokemon 9000 edited price saved",
+    "passed": true
+  },
+  {
+    "name": "pokemon 9000 stale purchase rejected",
+    "passed": true
+  },
+  {
+    "name": "pokemon 9000 stale attempt leaves buyer funds",
+    "passed": true
+  },
+  {
+    "name": "pokemon 9000 stale attempt leaves listing",
+    "passed": true
+  },
+  {
+    "name": "pokemon 9000 stale attempt leaves journal",
+    "passed": true
+  },
+  {
+    "name": "pokemon 9000 stale menu callback leaves funds",
+    "passed": true
+  },
+  {
+    "name": "pokemon 9000 stale menu callback leaves listing",
+    "passed": true
+  },
+  {
+    "name": "pokemon 9000 stale menu callback leaves journal",
+    "passed": true
+  },
+  {
+    "name": "pokemon 9000 stale attempt leaves seller able to edit",
+    "passed": true
+  },
+  {
+    "name": "pokemon 9000 seller can withdraw",
+    "passed": true
+  },
+  {
+    "name": "pokemon 9000 exactly original asset returned",
+    "passed": true
+  },
+  {
+    "name": "pokemon 9000 repeated withdraw cannot duplicate",
+    "passed": true
+  },
+  {
+    "name": "pokemon 9000 completed operation removes escrow file",
+    "passed": true
+  },
+  {
+    "name": "item 11000 actual API listing creation",
+    "passed": true
+  },
+  {
+    "name": "item 11000 creation not held",
+    "passed": true
+  },
+  {
+    "name": "item 11000 edited price saved",
+    "passed": true
+  },
+  {
+    "name": "item 11000 stale purchase rejected",
+    "passed": true
+  },
+  {
+    "name": "item 11000 stale attempt leaves buyer funds",
+    "passed": true
+  },
+  {
+    "name": "item 11000 stale attempt leaves listing",
+    "passed": true
+  },
+  {
+    "name": "item 11000 stale attempt leaves journal",
+    "passed": true
+  },
+  {
+    "name": "item 11000 stale menu callback leaves funds",
+    "passed": true
+  },
+  {
+    "name": "item 11000 stale menu callback leaves listing",
+    "passed": true
+  },
+  {
+    "name": "item 11000 stale menu callback leaves journal",
+    "passed": true
+  },
+  {
+    "name": "item 11000 stale attempt leaves seller able to edit",
+    "passed": true
+  },
+  {
+    "name": "item 11000 fresh purchase succeeds after stale rejection",
+    "passed": true
+  },
+  {
+    "name": "item 11000 fresh buyer pays exactly confirmed price",
+    "passed": true
+  },
+  {
+    "name": "item 11000 seller receives configured proceeds",
+    "passed": true
+  },
+  {
+    "name": "item 11000 buyer receives original asset",
+    "passed": true
+  },
+  {
+    "name": "item 11000 repeated purchase cannot charge twice",
+    "passed": true
+  },
+  {
+    "name": "item 11000 completed operation removes escrow file",
+    "passed": true
+  },
+  {
+    "name": "pokemon 11000 actual API listing creation",
+    "passed": true
+  },
+  {
+    "name": "pokemon 11000 creation not held",
+    "passed": true
+  },
+  {
+    "name": "pokemon 11000 edited price saved",
+    "passed": true
+  },
+  {
+    "name": "pokemon 11000 stale purchase rejected",
+    "passed": true
+  },
+  {
+    "name": "pokemon 11000 stale attempt leaves buyer funds",
+    "passed": true
+  },
+  {
+    "name": "pokemon 11000 stale attempt leaves listing",
+    "passed": true
+  },
+  {
+    "name": "pokemon 11000 stale attempt leaves journal",
+    "passed": true
+  },
+  {
+    "name": "pokemon 11000 stale menu callback leaves funds",
+    "passed": true
+  },
+  {
+    "name": "pokemon 11000 stale menu callback leaves listing",
+    "passed": true
+  },
+  {
+    "name": "pokemon 11000 stale menu callback leaves journal",
+    "passed": true
+  },
+  {
+    "name": "pokemon 11000 stale attempt leaves seller able to edit",
+    "passed": true
+  },
+  {
+    "name": "pokemon 11000 fresh purchase succeeds after stale rejection",
+    "passed": true
+  },
+  {
+    "name": "pokemon 11000 fresh buyer pays exactly confirmed price",
+    "passed": true
+  },
+  {
+    "name": "pokemon 11000 seller receives configured proceeds",
+    "passed": true
+  },
+  {
+    "name": "pokemon 11000 buyer receives original asset",
+    "passed": true
+  },
+  {
+    "name": "pokemon 11000 repeated purchase cannot charge twice",
+    "passed": true
+  },
+  {
+    "name": "pokemon 11000 completed operation removes escrow file",
+    "passed": true
+  },
+  {
+    "name": "rejection fixture created",
+    "passed": true
+  },
+  {
+    "name": "fresh quote with insufficient funds rejected",
+    "passed": true
+  },
+  {
+    "name": "rejected sale does not alter journal",
+    "passed": true
+  },
+  {
+    "name": "seller can edit after insufficient funds",
+    "passed": true
+  },
+  {
+    "name": "full seller inventory rejects withdrawal",
+    "passed": true
+  },
+  {
+    "name": "full inventory leaves listing and receipt untouched",
+    "passed": true
+  },
+  {
+    "name": "seller can withdraw after freeing space",
+    "passed": true
+  },
+  {
+    "name": "fault fixture created",
+    "passed": true
+  },
+  {
+    "name": "injected delivery error is reported",
+    "passed": true
+  },
+  {
+    "name": "failed delivery keeps visible listing",
+    "passed": true
+  },
+  {
+    "name": "failed delivery keeps escrow file",
+    "passed": true
+  },
+  {
+    "name": "failed delivery holds journal against duplicate retry",
+    "passed": true
+  },
+  {
+    "name": "failed delivery retains asset snapshot in journal",
+    "passed": true
+  }
+]

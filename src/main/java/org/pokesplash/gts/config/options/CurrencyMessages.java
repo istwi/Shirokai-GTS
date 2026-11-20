@@ -14,6 +14,7 @@ public final class CurrencyMessages {
    public String price = "§7Preço: {price}";
    public String invalidPrice = "§cPreço inválido. Use um valor positivo com até duas casas decimais, dentro do limite configurado.";
    public String unavailable = "§cEste anúncio não está mais disponível ou aguarda verificação administrativa.";
+   public String priceChanged = "§eO preço deste anúncio mudou. Confira o valor atualizado e confirme novamente. Nenhum valor foi cobrado.";
    public String insufficientFunds = "§cVocê não possui {currency} suficientes.";
    public String economyError = "§cNão foi possível concluir a operação. Contate a equipe se houve alteração de saldo.";
    public String currencyUnavailable = "§cMoeda indisponível ou sem permissão de uso.";

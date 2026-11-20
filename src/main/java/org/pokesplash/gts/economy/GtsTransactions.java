@@ -171,68 +171,44 @@ public final class GtsTransactions {
       JOURNAL.phase(record, "CREATED");
    }
 
-   public static boolean claim(ServerPlayerEntity player, Listing listing, boolean expired) {
+   public static boolean claim(ServerPlayerEntity player, Listing supplied, boolean expired) {
       requireServerThread();
-      if (player.getUuid().equals(listing.getSellerUuid()) && !blocked(listing)) {
-         Listing canonical = expired ? Gts.listings.getExpiredListingById(listing.getId()) : Gts.listings.getActiveListingById(listing.getId());
-         if (canonical != null && player.getUuid().equals(canonical.getSellerUuid()) && !player.isDisconnected()) {
-            listing = canonical;
-            if (canonical instanceof ItemListing item && !Utils.hasSpace(player, item.getListing())) {
-               return false;
-            } else {
-               TransactionJournal.Record record = new TransactionJournal.Record(
-                  canonical.getId(),
-                  player.getUuid(),
-                  canonical.getSellerUuid(),
-                  canonical.getCurrency(),
-                  BigDecimal.ZERO,
-                  BigDecimal.ZERO,
-                  Utils.newGson().toJson(canonical),
-                  player.getName().getString()
-               );
-
-               try {
-                  JOURNAL.phase(record, "RETURN_INTENT");
-                  if (!listing.delete("/config/gts/listings")) {
-                     throw new IllegalStateException("Delete failed");
-                  } else {
-                     boolean removed = expired ? Gts.listings.removeExpiredListing(listing) : Gts.listings.removeListing(listing);
-                     if (!removed) {
-                        throw new IllegalStateException("Remove failed");
-                     } else {
-                        JOURNAL.phase(record, "DELIVERY_INTENT");
-                        boolean delivered;
-                        if (listing instanceof PokemonListing pokemon) {
-                           PokemonStoreManager storage = Cobblemon.INSTANCE.getStorage();
-                           UUID id = pokemon.getListing().getUuid();
-                           if (storage.getParty(player).get(id) != null || storage.getPC(player).get(id) != null) {
-                              throw new IllegalStateException("Pokemon already in storage");
-                           }
-
-                           delivered = storage.getParty(player).add(pokemon.getListing());
-                        } else {
-                           ItemStack item = ((ItemListing)listing).getListing();
-                           delivered = player.getInventory().insertStack(item) && item.isEmpty();
-                        }
-
-                        if (!delivered) {
-                           throw new IllegalStateException("Delivery uncertain");
-                        } else {
-                           savePlayer(player);
-                           JOURNAL.phase(record, "RETURNED");
-                           return true;
-                        }
-                     }
-                  }
-               } catch (Exception var10) {
-                  Gts.LOGGER.error("Claim " + canonical.getId() + " held at " + record.phase + "; cause=" + var10.getClass().getSimpleName());
-                  return false;
-               }
-            }
+      if (!player.getUuid().equals(supplied.getSellerUuid()) || blocked(supplied) || player.isDisconnected()) return false;
+      Listing listing = expired ? Gts.listings.getExpiredListingById(supplied.getId()) : Gts.listings.getActiveListingById(supplied.getId());
+      if (listing == null || !player.getUuid().equals(listing.getSellerUuid())) return false;
+      TransactionJournal.Record record = null;
+      try {
+         // Decode and validate before touching the journal or escrowed listing.
+         final java.util.function.BooleanSupplier delivery;
+         if (listing instanceof PokemonListing pokemon) {
+            var asset = pokemon.getListing();
+            PokemonStoreManager storage = Cobblemon.INSTANCE.getStorage();
+            var party = storage.getParty(player);
+            if (party.get(asset.getUuid()) != null || storage.getPC(player).get(asset.getUuid()) != null) return false;
+            delivery = () -> party.add(asset);
          } else {
-            return false;
+            ItemStack asset = ((ItemListing)listing).getListing();
+            if (asset == null || asset.isEmpty() || !Utils.hasSpace(player, asset)) return false;
+            delivery = () -> player.getInventory().insertStack(asset) && asset.isEmpty();
          }
-      } else {
+         record = new TransactionJournal.Record(
+            listing.getId(), player.getUuid(), listing.getSellerUuid(), listing.getCurrency(),
+            BigDecimal.ZERO, BigDecimal.ZERO, Utils.newGson().toJson(listing), player.getName().getString()
+         );
+         JOURNAL.phase(record, "RETURN_INTENT");
+         JOURNAL.phase(record, "DELIVERY_INTENT");
+         // Keep the escrow file AND the visible (held) listing until delivery is confirmed.
+         // An uncertain failure must keep escrow visible for diagnosis and recovery.
+         if (!delivery.getAsBoolean()) throw new IllegalStateException("Delivery uncertain");
+         savePlayer(player);
+         JOURNAL.phase(record, "RETURNED");
+         if (!listing.delete("/config/gts/listings")) throw new IllegalStateException("Delete failed");
+         boolean removed = expired ? Gts.listings.removeExpiredListing(listing) : Gts.listings.removeListing(listing);
+         if (!removed) throw new IllegalStateException("Remove failed");
+         return true;
+      } catch (Exception error) {
+         Gts.LOGGER.error("Claim " + listing.getId() + " failed at " + (record == null ? "VALIDATION" : record.phase)
+            + "; escrow preserved unless return was completed", error);
          return false;
       }
    }
@@ -241,6 +217,11 @@ public final class GtsTransactions {
       requireServerThread();
       final Listing listing = Gts.listings.getActiveListingById(supplied.getId());
       if (listing != null && !blocked(listing)) {
+         if (!listing.getSellerUuid().equals(supplied.getSellerUuid())
+             || !listing.getCurrency().equals(supplied.getCurrency())
+             || Double.compare(listing.getPrice(), supplied.getPrice()) != 0) {
+            throw new ListingChangedException(Gts.language.getMultiCurrency().priceChanged);
+         }
          final BigDecimal price;
          final BigDecimal proceeds;
          try {
@@ -355,9 +336,7 @@ public final class GtsTransactions {
             );
          } catch (Exception var9) {
             Gts.LOGGER
-               .error(
-                  "Purchase " + listing.getId() + " failed at " + record.phase + "; held=" + blocked(listing) + "; cause=" + var9.getClass().getSimpleName()
-               );
+               .error("Purchase " + listing.getId() + " failed at " + record.phase + "; held=" + blocked(listing), var9);
             if (record.phase == null) {
                throw var9;
             } else {

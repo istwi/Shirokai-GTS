@@ -92,13 +92,8 @@ public abstract class Utils {
    public static boolean deleteFile(String filePath, String filename) {
       try {
          Path path = Paths.get(new File("").getAbsolutePath() + filePath, filename);
-         File file = path.toFile();
-         if (!file.exists()) {
-            return true;
-         } else {
-            file.delete();
-            return true;
-         }
+         java.nio.file.Files.deleteIfExists(path);
+         return true;
       } catch (Exception var4) {
          var4.printStackTrace();
          return false;

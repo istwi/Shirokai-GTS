@@ -28,7 +28,9 @@ public class SingleListing {
       return getPage(viewer, listing, false);
    }
 
-   public Page getPage(ServerPlayerEntity viewer, Listing listing, boolean expired) {
+   public Page getPage(ServerPlayerEntity viewer, Listing supplied, boolean expired) {
+      // The canonical listing is mutable. Keep the exact offer rendered in this menu.
+      Listing listing = supplied.deepClone();
       if (expired && !viewer.getUuid().equals(listing.getSellerUuid())) throw new IllegalArgumentException("Somente o dono pode retirar um anúncio expirado.");
       List<Text> lore = ListingInfo.parse(listing);
       if (expired) lore.add(0, ColorUtil.parse("<red><bold>ANÚNCIO EXPIRADO</bold></red>"));
@@ -60,6 +62,15 @@ public class SingleListing {
                         ColorUtil.parse(GtsTransactions.message(Gts.language.getMultiCurrency().sold, listing, action.getPlayer().getName().getString()))
                      );
                   }
+               } catch (org.pokesplash.gts.economy.ListingChangedException changed) {
+                  action.getPlayer().sendMessage(ColorUtil.parse(changed.getMessage()));
+                  Listing current = Gts.listings.getActiveListingById(listing.getId());
+                  if (current != null && !GtsTransactions.blocked(current)) {
+                     UIManager.openUIForcefully(action.getPlayer(), getPage(action.getPlayer(), current));
+                  } else {
+                     UIManager.closeUI(action.getPlayer());
+                  }
+                  return;
                } catch (Exception var4x) {
                   action.getPlayer()
                      .sendMessage(ColorUtil.parse(var4x.getMessage() == null ? Gts.language.getMultiCurrency().economyError : var4x.getMessage()));
